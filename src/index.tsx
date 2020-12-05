@@ -82,6 +82,13 @@ class AppMain extends React.Component<Empty, AppMainState> {
     });
   }
 
+  onTranslatorButtonClick = (): void => {
+    this.setState({
+      translationResult: 'Generate From PreProcessResult\n-----\n' + this.state.preProcessResult,
+      shouldTranslated: false,
+    });
+  }
+
   render(): JSX.Element {
     return (
       <div className="AppMain">
@@ -95,10 +102,10 @@ class AppMain extends React.Component<Empty, AppMainState> {
           <PreProcessResult result={this.state.preProcessResult} onChange={this.onPreProcessResultChange} />
         </div>
         <div className="AppMainButton">
-          <TranslatorButton />
+          <TranslatorButton isHighlight={this.state.shouldTranslated} onClick={this.onTranslatorButtonClick} />
         </div>
         <div className="AppMainForm">
-          <TranslationResult />
+          <TranslationResult result={this.state.translationResult} />
         </div>
       </div>
     );
@@ -164,9 +171,18 @@ function PreProcessResult(props: PreProcessResultProps): JSX.Element {
 
 
 // ======================================================================
-function TranslatorButton(): JSX.Element {
+type TranslatorButtonProps = {
+  isHighlight: boolean,
+  onClick: () => void
+}
+
+function TranslatorButton(props: TranslatorButtonProps): JSX.Element {
+  const style: React.CSSProperties = {
+    backgroundColor: props.isHighlight ? '#ffeeee' : undefined,
+  };
+
   return (
-    <button onClick={(): void => console.log('TranslatorButton button pushed')}>
+    <button style={style} onClick={props.onClick}>
       翻訳
     </button>
   );
@@ -174,12 +190,17 @@ function TranslatorButton(): JSX.Element {
 
 
 // ======================================================================
-function TranslationResult(): JSX.Element {
+type TranslationResultProps = {
+  result: string
+}
+
+function TranslationResult(props: TranslationResultProps): JSX.Element {
   return (
     <form>
       <textarea
         placeholder="翻訳ボタンを押してください"
-        onChange={(): void => console.log('TranslationResult change')}
+        readOnly={true}
+        value={props.result}
       />
     </form>
   );
