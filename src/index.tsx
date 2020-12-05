@@ -43,7 +43,7 @@ class AppMain extends React.Component {
   render(): JSX.Element {
     return (
       <div className="AppMain">
-        <div className="AppMainForm"><SourceInput /></div>
+        <div className="AppMainForm"><SourceInput value={''} onChange={(): void => console.log('SourceInput change')} /></div>
         <div className="AppMainButton"><PreProcessButton /></div>
         <div className="AppMainForm"><PreProcessResult /></div>
         <div className="AppMainButton"><TranslatorButton /></div>
@@ -55,13 +55,19 @@ class AppMain extends React.Component {
 
 
 // ======================================================================
-function SourceInput(): JSX.Element {
+type SourceInputProps = {
+  value: string,
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+function SourceInput(props: SourceInputProps): JSX.Element {
   return (
     <form>
       <input
         type="text"
         placeholder="翻訳したいソースコードを入力してください。"
-        onChange={(): void => console.log('SourceInput change')}
+        value={props.value}
+        onChange={props.onChange}
       />
     </form>
   );
