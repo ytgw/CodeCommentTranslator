@@ -68,12 +68,19 @@ class AppMain extends React.Component<Empty, AppMainState> {
     });
   }
 
+  onPreProcessResultChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    this.setState({
+      preProcessResult: event.target.value,
+      shouldTranslated: true,
+    });
+  }
+
   render(): JSX.Element {
     return (
       <div className="AppMain">
         <div className="AppMainForm"><SourceInput value={this.state.sourceInput} onChange={this.onSourceInputChange} /></div>
         <div className="AppMainButton"><PreProcessButton /></div>
-        <div className="AppMainForm"><PreProcessResult /></div>
+        <div className="AppMainForm"><PreProcessResult result={this.state.preProcessResult} onChange={this.onPreProcessResultChange} /></div>
         <div className="AppMainButton"><TranslatorButton /></div>
         <div className="AppMainForm"><TranslationResult /></div>
       </div>
@@ -113,13 +120,19 @@ function PreProcessButton(): JSX.Element {
 
 
 // ======================================================================
-function PreProcessResult(): JSX.Element {
+type PreProcessResultProps = {
+  result: string
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+function PreProcessResult(props: PreProcessResultProps): JSX.Element {
   return (
     <form>
       <input
         type="text"
         placeholder="前処理ボタンを押してください"
-        onChange={(): void => console.log('PreProcessResult change')}
+        value={props.result}
+        onChange={props.onChange}
       />
     </form>
   );
