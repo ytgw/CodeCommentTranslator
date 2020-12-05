@@ -1,4 +1,5 @@
 import React from 'react';
+import {ProgramLang, ProgramLangsContainer, ProgramLangName} from './programmingLanguage';
 import {SourceInput, PreProcessButton, PreProcessResult, TranslatorButton, TranslationResult} from './appMainComponents';
 import './index.css';
 
@@ -15,8 +16,50 @@ export class App extends React.Component {
   }
 }
 
-function CommentConfig(): JSX.Element {
-  return (<div className="CommentConfig">CommentConfigは未実装</div>);
+
+// ======================================================================
+class CommentConfig extends React.Component<Empty, {lang: ProgramLang}> {
+  private readonly langsContainer: ProgramLangsContainer = new ProgramLangsContainer();
+
+  constructor(props: Empty) {
+    super(props);
+    this.state = {
+      lang: this.langsContainer.getLangs()[0]
+    };
+  }
+
+  lang2optionElement = (lang: ProgramLang): JSX.Element => {
+    const name = lang.getName();
+    return (
+      <option value={name} key={name}>{name}</option>
+    );
+  }
+
+  renderSelectLang(): JSX.Element {
+    return (
+      <select value={this.state.lang.getName()} onChange={this.onLangChange}>
+        {this.langsContainer.getLangs().map(this.lang2optionElement)}
+      </select>
+    );
+  }
+
+  onLangChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    this.setState({
+      lang: this.langsContainer.name2lang(event.target.value as ProgramLangName)
+    });
+  }
+
+  render(): JSX.Element {
+    return (
+      <div className="CommentConfig">
+        プログラミング言語：{this.renderSelectLang()}
+        <br />
+        ラインコメント：「{this.state.lang.getLineComment()}」
+        <br />
+        ブロックコメント：「{this.state.lang.getBlockComment().start}」~「{this.state.lang.getBlockComment().end}」
+      </div>
+    );
+  }
 }
 
 
