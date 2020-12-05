@@ -61,7 +61,7 @@ class AppMain extends React.Component<Empty, AppMainState> {
     };
   }
 
-  onSourceInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  onSourceInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     this.setState({
       sourceInput: event.target.value,
       shouldPreProcessed: true,
@@ -75,7 +75,7 @@ class AppMain extends React.Component<Empty, AppMainState> {
     });
   }
 
-  onPreProcessResultChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  onPreProcessResultChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     this.setState({
       preProcessResult: event.target.value,
       shouldTranslated: true,
@@ -109,14 +109,13 @@ class AppMain extends React.Component<Empty, AppMainState> {
 // ======================================================================
 type SourceInputProps = {
   value: string,
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
 }
 
 function SourceInput(props: SourceInputProps): JSX.Element {
   return (
     <form>
-      <input
-        type="text"
+      <textarea
         placeholder="翻訳したいソースコードを入力してください。"
         value={props.value}
         onChange={props.onChange}
@@ -148,14 +147,13 @@ function PreProcessButton(props: PreProcessButtonProps): JSX.Element {
 // ======================================================================
 type PreProcessResultProps = {
   result: string
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
 }
 
 function PreProcessResult(props: PreProcessResultProps): JSX.Element {
   return (
     <form>
-      <input
-        type="text"
+      <textarea
         placeholder="前処理ボタンを押してください"
         value={props.result}
         onChange={props.onChange}
@@ -179,8 +177,7 @@ function TranslatorButton(): JSX.Element {
 function TranslationResult(): JSX.Element {
   return (
     <form>
-      <input
-        type="text"
+      <textarea
         placeholder="翻訳ボタンを押してください"
         onChange={(): void => console.log('TranslationResult change')}
       />
