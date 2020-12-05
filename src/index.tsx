@@ -68,6 +68,13 @@ class AppMain extends React.Component<Empty, AppMainState> {
     });
   }
 
+  onPreProcessButtonClick = (): void => {
+    this.setState({
+      preProcessResult: 'Generate From SourceInput --- ' + this.state.sourceInput,
+      shouldPreProcessed: false,
+    });
+  }
+
   onPreProcessResultChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({
       preProcessResult: event.target.value,
@@ -82,7 +89,7 @@ class AppMain extends React.Component<Empty, AppMainState> {
           <SourceInput value={this.state.sourceInput} onChange={this.onSourceInputChange} />
         </div>
         <div className="AppMainButton">
-          <PreProcessButton />
+          <PreProcessButton isHighlight={this.state.shouldPreProcessed} onClick={this.onPreProcessButtonClick}/>
         </div>
         <div className="AppMainForm">
           <PreProcessResult result={this.state.preProcessResult} onChange={this.onPreProcessResultChange} />
@@ -120,9 +127,18 @@ function SourceInput(props: SourceInputProps): JSX.Element {
 
 
 // ======================================================================
-function PreProcessButton(): JSX.Element {
+type PreProcessButtonProps = {
+  isHighlight: boolean,
+  onClick: () => void
+}
+
+function PreProcessButton(props: PreProcessButtonProps): JSX.Element {
+  const style: React.CSSProperties = {
+    backgroundColor: props.isHighlight ? '#ffeeee' : undefined,
+  };
+
   return (
-    <button onClick={(): void => console.log('PreProcessButton button pushed')}>
+    <button style={style} onClick={props.onClick}>
       前処理
     </button>
   );
