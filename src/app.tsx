@@ -35,7 +35,7 @@ export class App extends React.Component<Empty, AppState> {
           langsContainer={this.langsContainer}
           onLangChange={this.onLangChange}
         />
-        <AppMain />
+        <AppMain lang={this.state.lang}/>
       </>
     );
   }
@@ -80,6 +80,10 @@ class CommentConfig extends React.Component<CommentConfigProps> {
 
 
 // ======================================================================
+type AppMainProps = {
+  lang: ProgramLang,
+}
+
 type AppMainState = {
   sourceInput: string,
   preProcessResult: string,
@@ -88,8 +92,8 @@ type AppMainState = {
   shouldTranslated: boolean,
 }
 
-class AppMain extends React.Component<Empty, AppMainState> {
-  constructor(props: Empty) {
+class AppMain extends React.Component<AppMainProps, AppMainState> {
+  constructor(props: AppMainProps) {
     super(props);
     this.state = {
       sourceInput: '',
