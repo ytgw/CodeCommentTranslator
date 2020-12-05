@@ -39,7 +39,28 @@ function CommentConfig(): JSX.Element {
 
 
 // ======================================================================
-class AppMain extends React.Component {
+type Empty = Record<string, never>
+
+type AppMainState = {
+  sourceInput: string,
+  preProcessResult: string,
+  translationResult: string,
+  shouldPreProcessed: boolean,
+  shouldTranslated: boolean,
+}
+
+class AppMain extends React.Component<Empty, AppMainState> {
+  constructor(props: Empty) {
+    super(props);
+    this.state = {
+      sourceInput: '',
+      preProcessResult: '',
+      translationResult: '',
+      shouldPreProcessed: false,
+      shouldTranslated: false,
+    };
+  }
+
   render(): JSX.Element {
     return (
       <div className="AppMain">
