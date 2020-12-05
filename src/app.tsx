@@ -1,5 +1,6 @@
 import React from 'react';
 import {ProgramLang, ProgramLangsContainer, ProgramLangName} from './programmingLanguage';
+import {preprocessSourceCode} from './preprocess';
 import {SourceInput, PreProcessButton, PreProcessResult, TranslatorButton, TranslationResult} from './appMainComponents';
 import './index.css';
 
@@ -113,7 +114,7 @@ class AppMain extends React.Component<AppMainProps, AppMainState> {
 
   onPreProcessButtonClick = (): void => {
     this.setState({
-      preProcessResult: 'Generate From SourceInput\n-----\n' + this.state.sourceInput,
+      preProcessResult: preprocessSourceCode(this.state.sourceInput, this.props.lang),
       shouldPreProcessed: false,
       shouldTranslated: true,
     });
