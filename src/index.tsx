@@ -7,8 +7,13 @@ import './index.css';
 function Top(): JSX.Element {
   return (
     <>
-      <div><Title /><Manual /></div>
-      <div><App /></div>
+      <div>
+        <Title />
+        <Manual />
+      </div>
+      <div>
+        <App />
+      </div>
     </>
   );
 }
