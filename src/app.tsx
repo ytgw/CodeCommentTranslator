@@ -3,6 +3,8 @@ import {ProgramLang, ProgramLangsContainer, ProgramLangName} from './programming
 import {SourceInput, PreProcessButton, PreProcessResult, TranslatorButton, TranslationResult} from './appMainComponents';
 import './index.css';
 
+type Empty = Record<string, never>
+
 
 // ======================================================================
 type AppState = {
@@ -78,8 +80,6 @@ class CommentConfig extends React.Component<CommentConfigProps> {
 
 
 // ======================================================================
-type Empty = Record<string, never>
-
 type AppMainState = {
   sourceInput: string,
   preProcessResult: string,
