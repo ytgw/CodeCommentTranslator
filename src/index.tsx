@@ -39,16 +39,18 @@ function CommentConfig(): JSX.Element {
 
 
 // ======================================================================
-function AppMain(): JSX.Element {
-  return (
-    <div className="AppMain">
-      <div className="AppMainForm"><SourceInput /></div>
-      <div className="AppMainButton"><PreProcessButton /></div>
-      <div className="AppMainForm"><PreProcessResult /></div>
-      <div className="AppMainButton"><TranslatorButton /></div>
-      <div className="AppMainForm"><TranslationResult /></div>
-    </div>
-  );
+class AppMain extends React.Component {
+  render(): JSX.Element {
+    return (
+      <div className="AppMain">
+        <div className="AppMainForm"><SourceInput /></div>
+        <div className="AppMainButton"><PreProcessButton /></div>
+        <div className="AppMainForm"><PreProcessResult /></div>
+        <div className="AppMainButton"><TranslatorButton /></div>
+        <div className="AppMainForm"><TranslationResult /></div>
+      </div>
+    );
+  }
 }
 
 
