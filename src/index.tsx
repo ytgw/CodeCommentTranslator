@@ -131,6 +131,7 @@ function SourceInput(props: SourceInputProps): JSX.Element {
     <form>
       <textarea
         placeholder="翻訳したいソースコードを入力してください。"
+        wrap="off"
         value={props.value}
         onChange={props.onChange}
       />
@@ -168,7 +169,8 @@ function PreProcessResult(props: PreProcessResultProps): JSX.Element {
   return (
     <form>
       <textarea
-        placeholder="前処理ボタンを押してください"
+        placeholder="前処理ボタンを押してください。"
+        wrap="off"
         value={props.result}
         onChange={props.onChange}
       />
@@ -205,7 +207,8 @@ function TranslationResult(props: TranslationResultProps): JSX.Element {
   return (
     <form>
       <textarea
-        placeholder="翻訳ボタンを押してください"
+        placeholder="翻訳ボタンを押してください。"
+        wrap="off"
         readOnly={true}
         value={props.result}
       />
