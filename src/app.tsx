@@ -1,22 +1,79 @@
 import React from 'react';
+import {ProgramLang, ProgramLangsContainer, ProgramLangName} from './programmingLanguage';
 import {SourceInput, PreProcessButton, PreProcessResult, TranslatorButton, TranslationResult} from './appMainComponents';
 import './index.css';
 
 
 // ======================================================================
-export class App extends React.Component {
+type AppState = {
+  lang: ProgramLang,
+}
+
+export class App extends React.Component<Empty, AppState> {
+  private readonly langsContainer: ProgramLangsContainer = new ProgramLangsContainer();
+
+  constructor(props: Empty) {
+    super(props);
+    this.state = {
+      lang: this.langsContainer.getLangs()[0]
+    };
+  }
+
+  onLangChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    this.setState({
+      lang: this.langsContainer.name2lang(event.target.value as ProgramLangName)
+    });
+  }
+
   render(): JSX.Element {
     return (
       <>
-        <CommentConfig />
+        <CommentConfig
+          lang={this.state.lang}
+          langsContainer={this.langsContainer}
+          onLangChange={this.onLangChange}
+        />
         <AppMain />
       </>
     );
   }
 }
 
-function CommentConfig(): JSX.Element {
-  return (<div className="CommentConfig">CommentConfigは未実装</div>);
+
+// ======================================================================
+type CommentConfigProps = {
+  lang: ProgramLang,
+  langsContainer: ProgramLangsContainer,
+  onLangChange: (event: React.ChangeEvent<HTMLSelectElement>) => void,
+}
+
+class CommentConfig extends React.Component<CommentConfigProps> {
+  lang2optionElement = (lang: ProgramLang): JSX.Element => {
+    const name = lang.getName();
+    return (
+      <option value={name} key={name}>{name}</option>
+    );
+  }
+
+  renderSelectLang(): JSX.Element {
+    return (
+      <select value={this.props.lang.getName()} onChange={this.props.onLangChange}>
+        {this.props.langsContainer.getLangs().map(this.lang2optionElement)}
+      </select>
+    );
+  }
+
+  render(): JSX.Element {
+    return (
+      <div className="CommentConfig">
+        プログラミング言語：{this.renderSelectLang()}
+        <br />
+        ラインコメント：「{this.props.lang.getLineComment()}」
+        <br />
+        ブロックコメント：「{this.props.lang.getBlockComment().start}」~「{this.props.lang.getBlockComment().end}」
+      </div>
+    );
+  }
 }
 
 
