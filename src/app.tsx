@@ -6,7 +6,7 @@ import './index.css';
 
 // ======================================================================
 type AppState = {
-  lang: ProgramLang
+  lang: ProgramLang,
 }
 
 export class App extends React.Component<Empty, AppState> {
@@ -19,10 +19,20 @@ export class App extends React.Component<Empty, AppState> {
     };
   }
 
+  onLangChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    this.setState({
+      lang: this.langsContainer.name2lang(event.target.value as ProgramLangName)
+    });
+  }
+
   render(): JSX.Element {
     return (
       <>
-        <CommentConfig lang={this.state.lang} langsContainer={this.langsContainer} />
+        <CommentConfig
+          lang={this.state.lang}
+          langsContainer={this.langsContainer}
+          onLangChange={this.onLangChange}
+        />
         <AppMain />
       </>
     );
@@ -32,8 +42,9 @@ export class App extends React.Component<Empty, AppState> {
 
 // ======================================================================
 type CommentConfigProps = {
-  lang: ProgramLang
-  langsContainer: ProgramLangsContainer
+  lang: ProgramLang,
+  langsContainer: ProgramLangsContainer,
+  onLangChange: (event: React.ChangeEvent<HTMLSelectElement>) => void,
 }
 
 class CommentConfig extends React.Component<CommentConfigProps> {
@@ -46,16 +57,10 @@ class CommentConfig extends React.Component<CommentConfigProps> {
 
   renderSelectLang(): JSX.Element {
     return (
-      <select value={this.props.lang.getName()} onChange={this.onLangChange}>
+      <select value={this.props.lang.getName()} onChange={this.props.onLangChange}>
         {this.props.langsContainer.getLangs().map(this.lang2optionElement)}
       </select>
     );
-  }
-
-  onLangChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-    this.setState({
-      lang: this.props.langsContainer.name2lang(event.target.value as ProgramLangName)
-    });
   }
 
   render(): JSX.Element {
