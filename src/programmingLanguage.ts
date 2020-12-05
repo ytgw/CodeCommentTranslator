@@ -1,13 +1,13 @@
 type LineComment = string
 type BlockComment = {start: string, end: string}
-type ProgramLangName = 'JavaScript or TypeScript' | 'C or C++' | 'Python' | 'Shell'
+export type ProgramLangName = 'JavaScript or TypeScript' | 'C or C++' | 'Python' | 'Shell'
 
 
 // ======================================================================
-export class ProgramLangConfig {
-  private name: ProgramLangName;
-  private lineComment: LineComment;
-  private blockComment: {start: string, end: string};
+export class ProgramLang {
+  private readonly name: ProgramLangName;
+  private readonly lineComment: LineComment;
+  private readonly blockComment: {start: string, end: string};
 
   constructor(name: ProgramLangName, lineComment: LineComment, blockComment: BlockComment) {
     this.name = name;
@@ -30,28 +30,20 @@ export class ProgramLangConfig {
 
 
 // ======================================================================
-function name2config(name: ProgramLangName): ProgramLangConfig {
-  let langConfig: ProgramLangConfig;
-  switch (name) {
-  case 'JavaScript or TypeScript':
-    langConfig = new ProgramLangConfig(name, '//', {start: '/*', end: '*/'});
-    break;
-  case 'C or C++':
-    langConfig = new ProgramLangConfig(name, '//', {start: '/*', end: '*/'});
-    break;
-  case 'Python':
-    langConfig = new ProgramLangConfig(name, '#', {start: '/*', end: '*/'});
-    break;
-  case 'Shell':
-    langConfig = new ProgramLangConfig(name, '#', {start: '', end: ''});
-    break;
-  }
-  return langConfig;
-}
+export class ProgramLangsContainer {
+  private readonly langs: ProgramLang[] = [
+    new ProgramLang('JavaScript or TypeScript', '//', {start: '/*', end: '*/'}),
+    new ProgramLang('C or C++', '//', {start: '/*', end: '*/'}),
+    new ProgramLang('Python', '#', {start: '"""', end: '"""'}),
+    new ProgramLang('Shell', '#', {start: '', end: ''}),
+  ]
 
-export const programLangs: ProgramLangConfig[] = [
-  name2config('JavaScript or TypeScript'),
-  name2config('C or C++'),
-  name2config('Python'),
-  name2config('Shell'),
-];
+  getLangs(): ProgramLang[] {
+    return this.langs;
+  }
+
+  name2lang(name: ProgramLangName): ProgramLang {
+    const langs: ProgramLang[] = this.langs.filter(conf => conf.getName() === name);
+    return langs[0];
+  }
+}
