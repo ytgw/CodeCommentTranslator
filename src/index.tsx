@@ -70,8 +70,9 @@ class AppMain extends React.Component<Empty, AppMainState> {
 
   onPreProcessButtonClick = (): void => {
     this.setState({
-      preProcessResult: 'Generate From SourceInput --- ' + this.state.sourceInput,
+      preProcessResult: 'Generate From SourceInput\n-----\n' + this.state.sourceInput,
       shouldPreProcessed: false,
+      shouldTranslated: true,
     });
   }
 
@@ -93,18 +94,24 @@ class AppMain extends React.Component<Empty, AppMainState> {
     return (
       <div className="AppMain">
         <div className="AppMainForm">
+          <span>ソースコード入力フォーム</span>
+          <br />
           <SourceInput value={this.state.sourceInput} onChange={this.onSourceInputChange} />
         </div>
         <div className="AppMainButton">
-          <PreProcessButton isHighlight={this.state.shouldPreProcessed} onClick={this.onPreProcessButtonClick}/>
+          <PreProcessButton isHighlight={this.state.shouldPreProcessed} onClick={this.onPreProcessButtonClick} />
         </div>
         <div className="AppMainForm">
+          <span>前処理結果</span>
+          <br />
           <PreProcessResult result={this.state.preProcessResult} onChange={this.onPreProcessResultChange} />
         </div>
         <div className="AppMainButton">
           <TranslatorButton isHighlight={this.state.shouldTranslated} onClick={this.onTranslatorButtonClick} />
         </div>
         <div className="AppMainForm">
+          <span>翻訳結果</span>
+          <br />
           <TranslationResult result={this.state.translationResult} />
         </div>
       </div>
