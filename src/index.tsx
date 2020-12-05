@@ -61,10 +61,17 @@ class AppMain extends React.Component<Empty, AppMainState> {
     };
   }
 
+  onSourceInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    this.setState({
+      sourceInput: event.target.value,
+      shouldPreProcessed: true,
+    });
+  }
+
   render(): JSX.Element {
     return (
       <div className="AppMain">
-        <div className="AppMainForm"><SourceInput value={''} onChange={(): void => console.log('SourceInput change')} /></div>
+        <div className="AppMainForm"><SourceInput value={this.state.sourceInput} onChange={this.onSourceInputChange} /></div>
         <div className="AppMainButton"><PreProcessButton /></div>
         <div className="AppMainForm"><PreProcessResult /></div>
         <div className="AppMainButton"><TranslatorButton /></div>
