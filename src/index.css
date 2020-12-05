@@ -1,0 +1,48 @@
+body {
+  background: #eeeeee;
+}
+
+/* ====================================================================== */
+h1 {
+  background: #ffffff;
+  text-align: center;
+}
+
+.Manual {
+  background: #ffffff;
+  text-align: center;
+}
+
+/* ====================================================================== */
+.CommentConfig {
+  background: #ffffff;
+  text-align: center;
+}
+
+/* ====================================================================== */
+.AppMain {
+  display: flex;
+  align-items: center;
+}
+
+.AppMainForm {
+  flex-grow: 1;
+  background: #ffffff;
+  margin: 10px;
+}
+
+input {
+  width: 100%;
+  height: 300px;
+  background: #ffffff;
+}
+
+.AppMainButton {
+  width: 100px;
+  margin: 10px;
+}
+
+button {
+  width: 100%;
+  height: 50px;
+}
