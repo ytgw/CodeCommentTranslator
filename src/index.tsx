@@ -78,11 +78,21 @@ class AppMain extends React.Component<Empty, AppMainState> {
   render(): JSX.Element {
     return (
       <div className="AppMain">
-        <div className="AppMainForm"><SourceInput value={this.state.sourceInput} onChange={this.onSourceInputChange} /></div>
-        <div className="AppMainButton"><PreProcessButton /></div>
-        <div className="AppMainForm"><PreProcessResult result={this.state.preProcessResult} onChange={this.onPreProcessResultChange} /></div>
-        <div className="AppMainButton"><TranslatorButton /></div>
-        <div className="AppMainForm"><TranslationResult /></div>
+        <div className="AppMainForm">
+          <SourceInput value={this.state.sourceInput} onChange={this.onSourceInputChange} />
+        </div>
+        <div className="AppMainButton">
+          <PreProcessButton />
+        </div>
+        <div className="AppMainForm">
+          <PreProcessResult result={this.state.preProcessResult} onChange={this.onPreProcessResultChange} />
+        </div>
+        <div className="AppMainButton">
+          <TranslatorButton />
+        </div>
+        <div className="AppMainForm">
+          <TranslationResult />
+        </div>
       </div>
     );
   }
