@@ -5,20 +5,11 @@ import './index.css';
 
 
 // ======================================================================
-export class App extends React.Component {
-  render(): JSX.Element {
-    return (
-      <>
-        <CommentConfig />
-        <AppMain />
-      </>
-    );
-  }
+type AppState = {
+  lang: ProgramLang
 }
 
-
-// ======================================================================
-class CommentConfig extends React.Component<Empty, {lang: ProgramLang}> {
+export class App extends React.Component<Empty, AppState> {
   private readonly langsContainer: ProgramLangsContainer = new ProgramLangsContainer();
 
   constructor(props: Empty) {
@@ -28,6 +19,24 @@ class CommentConfig extends React.Component<Empty, {lang: ProgramLang}> {
     };
   }
 
+  render(): JSX.Element {
+    return (
+      <>
+        <CommentConfig lang={this.state.lang} langsContainer={this.langsContainer} />
+        <AppMain />
+      </>
+    );
+  }
+}
+
+
+// ======================================================================
+type CommentConfigProps = {
+  lang: ProgramLang
+  langsContainer: ProgramLangsContainer
+}
+
+class CommentConfig extends React.Component<CommentConfigProps> {
   lang2optionElement = (lang: ProgramLang): JSX.Element => {
     const name = lang.getName();
     return (
@@ -37,15 +46,15 @@ class CommentConfig extends React.Component<Empty, {lang: ProgramLang}> {
 
   renderSelectLang(): JSX.Element {
     return (
-      <select value={this.state.lang.getName()} onChange={this.onLangChange}>
-        {this.langsContainer.getLangs().map(this.lang2optionElement)}
+      <select value={this.props.lang.getName()} onChange={this.onLangChange}>
+        {this.props.langsContainer.getLangs().map(this.lang2optionElement)}
       </select>
     );
   }
 
   onLangChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     this.setState({
-      lang: this.langsContainer.name2lang(event.target.value as ProgramLangName)
+      lang: this.props.langsContainer.name2lang(event.target.value as ProgramLangName)
     });
   }
 
@@ -54,9 +63,9 @@ class CommentConfig extends React.Component<Empty, {lang: ProgramLang}> {
       <div className="CommentConfig">
         プログラミング言語：{this.renderSelectLang()}
         <br />
-        ラインコメント：「{this.state.lang.getLineComment()}」
+        ラインコメント：「{this.props.lang.getLineComment()}」
         <br />
-        ブロックコメント：「{this.state.lang.getBlockComment().start}」~「{this.state.lang.getBlockComment().end}」
+        ブロックコメント：「{this.props.lang.getBlockComment().start}」~「{this.props.lang.getBlockComment().end}」
       </div>
     );
   }
