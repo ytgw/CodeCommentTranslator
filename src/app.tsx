@@ -1,4 +1,5 @@
 import React from 'react';
+import {SourceInput, PreProcessButton, PreProcessResult, TranslatorButton, TranslationResult} from './appMainComponents';
 import './index.css';
 
 
@@ -98,101 +99,4 @@ class AppMain extends React.Component<Empty, AppMainState> {
       </div>
     );
   }
-}
-
-
-// ======================================================================
-type SourceInputProps = {
-  value: string,
-  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
-}
-
-function SourceInput(props: SourceInputProps): JSX.Element {
-  return (
-    <form>
-      <textarea
-        placeholder="翻訳したいソースコードを入力してください。"
-        wrap="off"
-        value={props.value}
-        onChange={props.onChange}
-      />
-    </form>
-  );
-}
-
-
-// ======================================================================
-type PreProcessButtonProps = {
-  isHighlight: boolean,
-  onClick: () => void
-}
-
-function PreProcessButton(props: PreProcessButtonProps): JSX.Element {
-  const style: React.CSSProperties = {
-    backgroundColor: props.isHighlight ? '#ffeeee' : undefined,
-  };
-
-  return (
-    <button style={style} onClick={props.onClick}>
-      前処理
-    </button>
-  );
-}
-
-
-// ======================================================================
-type PreProcessResultProps = {
-  result: string
-  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
-}
-
-function PreProcessResult(props: PreProcessResultProps): JSX.Element {
-  return (
-    <form>
-      <textarea
-        placeholder="前処理ボタンを押してください。"
-        wrap="off"
-        value={props.result}
-        onChange={props.onChange}
-      />
-    </form>
-  );
-}
-
-
-// ======================================================================
-type TranslatorButtonProps = {
-  isHighlight: boolean,
-  onClick: () => void
-}
-
-function TranslatorButton(props: TranslatorButtonProps): JSX.Element {
-  const style: React.CSSProperties = {
-    backgroundColor: props.isHighlight ? '#ffeeee' : undefined,
-  };
-
-  return (
-    <button style={style} onClick={props.onClick}>
-      翻訳
-    </button>
-  );
-}
-
-
-// ======================================================================
-type TranslationResultProps = {
-  result: string
-}
-
-function TranslationResult(props: TranslationResultProps): JSX.Element {
-  return (
-    <form>
-      <textarea
-        placeholder="翻訳ボタンを押してください。"
-        wrap="off"
-        readOnly={true}
-        value={props.result}
-      />
-    </form>
-  );
 }
