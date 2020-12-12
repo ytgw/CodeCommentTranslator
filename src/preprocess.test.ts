@@ -38,3 +38,15 @@ test('TypeScript_ラインコメントのみの行が連続し末尾がハイフ
   const expectOutput = fs.readFileSync('./src/testSample/expect_TypeScript_ラインコメントのみの行が連続し末尾がハイフン.txt', { encoding: 'utf8' }).trimEnd();
   expect(preprocessSourceCode(sampleInput, lang).trimEnd()).toEqual(expectOutput);
 });
+
+test('TypeScript_ブロックコメントから始まる行', () => {
+  const sampleInput  = fs.readFileSync('./src/testSample/sample_TypeScript_ブロックコメントから始まる行.txt', { encoding: 'utf8' }).trimEnd();
+  const expectOutput = fs.readFileSync('./src/testSample/expect_TypeScript_ブロックコメントから始まる行.txt', { encoding: 'utf8' }).trimEnd();
+  expect(preprocessSourceCode(sampleInput, lang).trimEnd()).toEqual(expectOutput);
+});
+
+test('TypeScript_複数行のブロックコメント', () => {
+  const sampleInput  = fs.readFileSync('./src/testSample/sample_TypeScript_複数行のブロックコメント.txt', { encoding: 'utf8' }).trimEnd();
+  const expectOutput = fs.readFileSync('./src/testSample/expect_TypeScript_複数行のブロックコメント.txt', { encoding: 'utf8' }).trimEnd();
+  expect(preprocessSourceCode(sampleInput, lang).trimEnd()).toEqual(expectOutput);
+});

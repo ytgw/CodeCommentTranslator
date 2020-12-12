@@ -1,0 +1,15 @@
+import React from 'react';
+
+/*
+ブロックコメント1
+ブロックコメント2-
+ブロックコメント3
+*/
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
+reportWebVitals();
