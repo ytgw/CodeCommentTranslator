@@ -1,0 +1,12 @@
+import React from 'react';
+
+// ラインコメントから始まる行1-
+// ラインコメントから始まる行2
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
+reportWebVitals();

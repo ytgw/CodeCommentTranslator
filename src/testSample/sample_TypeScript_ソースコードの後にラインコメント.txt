@@ -1,0 +1,10 @@
+import React from 'react';
+
+ReactDOM.render(
+  <React.StrictMode>
+    <App />   // ソースコードの後のラインコメント1
+  </React.StrictMode>,  // ソースコードの後のラインコメント2
+  document.getElementById('root')
+);
+
+reportWebVitals();
