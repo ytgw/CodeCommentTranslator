@@ -19,8 +19,16 @@ class LineProps {
   calcPropsArray(raw: string): TextProps[] {
     const propsArray: TextProps[] = [];
 
-    // ラインコメント文字列の前後にスペースやタブが0以上入っているパターン
-    const regex = new RegExp('\\s*' + this.lang.getLineComment() + '\\s*', 'g');
+    // コメント文字列の前後にスペースやタブが0以上入っているパターン
+    // replaceメソッドの目的は正規表現の特殊文字をエスケープ
+    const commentCommands = '\\s*('
+      + this.lang.getLineComment().replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+      + '|'
+      + this.lang.getBlockComment().start.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+      + '|'
+      + this.lang.getBlockComment().end.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')
+      + ')\\s*';
+    const regex = new RegExp(commentCommands, 'g');
 
     const array = regex.exec(raw);
     if (array === null) {
