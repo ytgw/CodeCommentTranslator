@@ -132,6 +132,8 @@ class AppMain extends React.Component<AppMainProps, AppMainState> {
       translationResult: 'Generate From PreProcessResult\n-----\n' + this.state.preProcessResult,
       shouldTranslated: false,
     });
+    const url = 'https://www.deepl.com/translator#en/ja/' + encodeURI(this.state.preProcessResult.replace(/\n{2,}/g, '\n\n'));
+    window.open(url, '_blank');
   }
 
   render(): JSX.Element {
@@ -153,11 +155,11 @@ class AppMain extends React.Component<AppMainProps, AppMainState> {
         <div className="AppMainButton">
           <TranslatorButton isHighlight={this.state.shouldTranslated} onClick={this.onTranslatorButtonClick} />
         </div>
-        <div className="AppMainForm">
+        {/* <div className="AppMainForm">
           <span>翻訳結果</span>
           <br />
           <TranslationResult result={this.state.translationResult} />
-        </div>
+        </div> */}
       </div>
     );
   }
