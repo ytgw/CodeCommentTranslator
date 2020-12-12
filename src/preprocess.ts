@@ -2,7 +2,7 @@ import {ProgramLang} from './programmingLanguage';
 
 type TextProps = {
   raw: string,
-  type: 'source' | 'commentCommand' | 'comment' | 'nothing'
+  type: 'source' | 'commentCommand' | 'comment' | 'nothing' | 'specialCharComment'
 };
 
 type SearchResult = {
@@ -24,10 +24,36 @@ class LineProps {
     this.isEndedInBlockComment = result.isEndedInBlockComment;
   }
 
-  private isOnlyComment(): boolean {
-    const hasSrc = this.propsArray.filter(props => props.type === 'source').length !== 0;
-    const hasComment = this.propsArray.filter(props => props.type === 'comment').length !== 0;
-    return !hasSrc && hasComment;
+  private needsNewLine(nextLineProps: LineProps): boolean {
+    // 基本は改行必要
+    let result = true;
+    // コメントライクのみの行が連続するときは改行不要
+    if (this.everyCommentLike() && nextLineProps.everyCommentLike()) {
+      result = false;
+    }
+    // ただし、現在行か次行がコメントを一つも含まない場合は改行必要
+    if (!this.some('comment') || !nextLineProps.some('comment')) {
+      result = true;
+    }
+    return result;
+  }
+
+  private everyCommentLike(): boolean {
+    // コメント、コマンド、特殊文字コメントのみで構成されればTrue
+    const propsNum = this.propsArray.length;
+    const commentNum = this.propsArray.filter(p => p.type === 'comment').length;
+    const commandNum = this.propsArray.filter(p => p.type === 'commentCommand').length;
+    const sepcialCharNum = this.propsArray.filter(p => p.type === 'specialCharComment').length;
+
+    return propsNum === (commentNum + commandNum + sepcialCharNum);
+  }
+
+  private some(type: TextProps['type']): boolean {
+    return this.propsArray.some(p => p.type === type);
+  }
+
+  private every(type: TextProps['type']): boolean {
+    return this.propsArray.every(p => p.type === type);
   }
 
   getComments(separator=' '): string {
@@ -36,26 +62,23 @@ class LineProps {
 
   private endsHyphen(): boolean {
     const lastProps = this.propsArray[this.propsArray.length - 1];
-    const lastType = lastProps.type === 'comment';
+    const lastType = (lastProps.type === 'comment') || (lastProps.type === 'specialCharComment');
     const lastChar = lastProps.raw[lastProps.raw.length - 1] === '-';
 
     return lastType && lastChar;
   }
 
   getAppendComment(nextLineProps: LineProps): string {
-    // 連続したコメントのみの行があれば、改行無して空白追加
-    // ただしその場合でも、現在行の末尾文字が「-」なら、ハイフンを消して、空白と改行は無し
-    // それ以外はコメント+改行
-    if (this.isOnlyComment() && nextLineProps.isOnlyComment()) {
-      if (this.endsHyphen()) {
-        const comment = this.getComments();
-        return comment.slice(0, comment.length - 1);
-      } else {
-        return this.getComments() + ' ';
-      }
-    } else {
+    // 改行が必要な場合は、コメント+改行
+    if (this.needsNewLine(nextLineProps)) {
       return this.getComments() + '\n';
     }
+    // 改行が不要な場合で、現在行の末尾文字がハイフンなら、ハイフンを消したコメント
+    if (this.endsHyphen()) {
+      return this.getComments().replace(/-$/, '');
+    }
+    // それ以外の改行が不要な場合は、コメント+空白
+    return this.getComments() + ' ';
   }
 
   getIsEndedInBlockComment(): boolean {
@@ -102,7 +125,13 @@ class LinePropsMaker {
       propsArray.push(...result.propsArray);
     }
 
-    return {propsArray, isEndedInBlockComment};
+    let splitedArray: TextProps[] = [];
+    for (const p of propsArray) {
+      const array = (p.type !== 'comment') ? [p] : LinePropsMaker.splitCommentProps(p);
+      splitedArray = splitedArray.concat(array);
+    }
+
+    return {propsArray: splitedArray, isEndedInBlockComment};
   }
 
   private searchInBlockComment(text: string): SearchResult {
@@ -180,6 +209,51 @@ class LinePropsMaker {
     }
 
     return propsArray.filter(p => p.raw !== '');
+  }
+
+  static splitCommentProps(props: TextProps): TextProps[] {
+    if (props.type !== 'comment') {
+      return [props];
+    }
+
+    // 1個以上の特殊文字パターン
+    let specialChar = '(';
+    for (const char of '#$%&-=^~\\|@+*<>?/') {
+      specialChar += '|' + char.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
+    }
+    specialChar += ')*';
+
+    // 1個以上の特殊文字の前後に、0個以上のスペースライク文字があるパターン
+    const pattern = '(\\s*)' + specialChar + '(\\s*)';
+
+    const propsArray1 = this.getTextProps('^' + pattern, props.raw);
+    const propsArray2 = this.getTextProps(pattern + '$', props.raw);
+
+    const result = (propsArray1.length > propsArray2.length)
+      ? propsArray1 : propsArray2;
+
+    return result;
+  }
+
+  static getTextProps(pattern: string, comment: string): TextProps[] {
+    const regex = new RegExp(pattern);
+    const array = regex.exec(comment);
+
+    if (array === null) {
+      return [{raw: comment, type: 'comment'}];
+    }
+
+    const matchStr = array[0];
+    const matchStartIndex = array.index;
+    const matchEndIndex = matchStartIndex + matchStr.length;
+
+    const result: TextProps[] = [
+      {raw: comment.slice(0, matchStartIndex), type: 'comment'},
+      {raw: matchStr, type: 'specialCharComment'},
+      {raw: comment.slice(matchEndIndex, comment.length), type: 'comment'},
+    ];
+
+    return result.filter(p => p.raw !== '');
   }
 }
 
