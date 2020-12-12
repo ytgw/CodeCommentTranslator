@@ -25,7 +25,9 @@ class LineProps {
   }
 
   private isOnlyComment(): boolean {
-    return this.propsArray.filter(props => props.type === 'source').length === 0;
+    const hasSrc = this.propsArray.filter(props => props.type === 'source').length !== 0;
+    const hasComment = this.propsArray.filter(props => props.type === 'comment').length !== 0;
+    return !hasSrc && hasComment;
   }
 
   getComments(separator=' '): string {
@@ -75,6 +77,16 @@ class LinePropsMaker {
   }
 
   makeLineProps(): {propsArray: TextProps[], isEndedInBlockComment: boolean} {
+    if (this.rawText === '') {
+      return {
+        propsArray: [{
+          raw: '',
+          type: this.startInBlockComment ? 'comment' : 'source'
+        }],
+        isEndedInBlockComment: this.startInBlockComment,
+      };
+    }
+
     let hasResidual = true;
     let residualText = this.rawText;
     let isEndedInBlockComment = this.startInBlockComment;
@@ -113,8 +125,8 @@ class LinePropsMaker {
       propsArray = [{raw: text, type: 'comment'}];
     } else {
       propsArray = LinePropsMaker.makePropsArray(array, true, hasResidual);
-      hasResidual = true;
       residualText = text.slice(regex.lastIndex, text.length);
+      hasResidual = (residualText === '') ? false : true;
       isEndedInBlockComment = false;
     }
 
@@ -141,8 +153,8 @@ class LinePropsMaker {
     } else if (array[0].includes(this.lang.getLineComment())) {
       propsArray = LinePropsMaker.makePropsArray(array, false, hasResidual);
     } else if (array[0].includes(this.lang.getBlockComment().start)) {
-      hasResidual = true;
       residualText = text.slice(regex.lastIndex, text.length);
+      hasResidual = (residualText === '') ? false : true;
       isEndedInBlockComment = true;
       propsArray = LinePropsMaker.makePropsArray(array, false, hasResidual);
     } else {
