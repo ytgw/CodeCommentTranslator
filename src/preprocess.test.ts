@@ -58,3 +58,19 @@ test('TypeScript_ソースコードの途中にブロックコメント', () => 
   const expectOutput = fs.readFileSync('./src/testSample/expect_TypeScript_ソースコードの途中にブロックコメント.txt', {encoding: 'utf8'});
   expect(preprocessSourceCode(sampleInput, lang).trimEnd()).toEqual(expectOutput.trimEnd());
 });
+
+
+// ======================================================================
+test('JavaScript_Nodejsのutilの抜粋', () => {
+  const sampleInput  = fs.readFileSync('./src/testSample/sample_Javascript_nodejs_util_抜粋.txt', {encoding: 'utf8'});
+  const expectOutput = fs.readFileSync('./src/testSample/expect_Javascript_nodejs_util_抜粋.txt', {encoding: 'utf8'});
+  // console.log('------------------------------------------------------');
+  // console.log(preprocessSourceCode(sampleInput, lang).trimEnd());
+  expect(preprocessSourceCode(sampleInput, lang).trimEnd()).toEqual(expectOutput.trimEnd());
+});
+
+test('JavaScript_Nodejsのutil', () => {
+  const sampleInput  = fs.readFileSync('./src/testSample/sample_Javascript_nodejs_util.txt', {encoding: 'utf8'});
+  const expectOutput = fs.readFileSync('./src/testSample/expect_Javascript_nodejs_util.txt', {encoding: 'utf8'});
+  expect(preprocessSourceCode(sampleInput, lang).trimEnd()).toEqual(expectOutput.trimEnd());
+});
