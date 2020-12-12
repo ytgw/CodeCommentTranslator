@@ -9,14 +9,15 @@ type TextProps = {
 // ======================================================================
 class LineProps {
   private readonly lang: ProgramLang;
-  private readonly propsArray: TextProps[]
+  private readonly propsArray: TextProps[];
+  private readonly endInBlockComment: boolean;
 
-  constructor(lang: ProgramLang, raw: string, /*startInBlockComment: boolean*/) {
+  constructor(lang: ProgramLang, raw: string, startInBlockComment: boolean) {
     this.lang = lang;
-    this.propsArray = this.calcPropsArray(raw);
+    [this.propsArray, this.endInBlockComment] = this.calcPropsArray(raw, startInBlockComment);
   }
 
-  calcPropsArray(raw: string): TextProps[] {
+  calcPropsArray(raw: string, startInBlockComment: boolean): [TextProps[], boolean] {
     const propsArray: TextProps[] = [];
 
     // コメント文字列の前後にスペースやタブが0以上入っているパターン
@@ -32,7 +33,8 @@ class LineProps {
 
     const array = regex.exec(raw);
     if (array === null) {
-      return [{raw: raw, type: 'source'}];
+      const textType = startInBlockComment ? 'comment' : 'source';
+      return [[{raw: raw, type: textType}], startInBlockComment];
     }
 
     const commandStartIdx = regex.lastIndex - array[0].length;
@@ -43,7 +45,10 @@ class LineProps {
     }
     propsArray.push({raw: raw.slice(commandStartIdx, commandEndIdx), type: 'commentCommand'});
     propsArray.push({raw: raw.slice(commandEndIdx, raw.length), type: 'comment'});
-    return propsArray;
+
+    // TODO endInBlockCommentの算出の実装
+    const endInBlockComment = false;
+    return [propsArray, endInBlockComment];
   }
 
   isOnlyComment(): boolean {
@@ -77,6 +82,10 @@ class LineProps {
       return this.getComments() + '\n';
     }
   }
+
+  getEndInBlockComment(): boolean {
+    return this.endInBlockComment;
+  }
 }
 
 
@@ -84,8 +93,11 @@ class LineProps {
 export function preprocessSourceCode(sourceCode: string, lang: ProgramLang): string {
   const lineList = sourceCode.split('\n');
   const LinePropsList: LineProps[] = [];
+  let startInBlockComment = false;
   for (let i = 0; i < lineList.length; i++) {
-    LinePropsList.push(new LineProps(lang, lineList[i]));
+    const element: LineProps = new LineProps(lang, lineList[i], startInBlockComment);
+    startInBlockComment = element.getEndInBlockComment();
+    LinePropsList.push(element);
   }
 
   let result = '';
