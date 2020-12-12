@@ -2,7 +2,7 @@ import {ProgramLang} from './programmingLanguage';
 
 type TextProps = {
   raw: string,
-  type: 'source' | 'commentCommand' | 'comment'
+  type: 'source' | 'commentCommand' | 'comment' | 'nothing'
 };
 
 type SearchResult = {
@@ -79,10 +79,7 @@ class LinePropsMaker {
   makeLineProps(): {propsArray: TextProps[], isEndedInBlockComment: boolean} {
     if (this.rawText === '') {
       return {
-        propsArray: [{
-          raw: '',
-          type: this.startInBlockComment ? 'comment' : 'source'
-        }],
+        propsArray: [{raw: '', type: 'nothing'}],
         isEndedInBlockComment: this.startInBlockComment,
       };
     }
