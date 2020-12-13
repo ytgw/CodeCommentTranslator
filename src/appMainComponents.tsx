@@ -74,7 +74,7 @@ export function TranslatorButton(props: TranslatorButtonProps): JSX.Element {
 
   return (
     <button style={style} onClick={props.onClick}>
-      翻訳
+      翻訳サイトへ
     </button>
   );
 }

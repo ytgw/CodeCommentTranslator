@@ -1,7 +1,10 @@
 import React from 'react';
 import {ProgramLang, ProgramLangsContainer, ProgramLangName} from './programmingLanguage';
+import {preprocessSourceCode} from './preprocess';
 import {SourceInput, PreProcessButton, PreProcessResult, TranslatorButton, TranslationResult} from './appMainComponents';
 import './index.css';
+
+type Empty = Record<string, never>
 
 
 // ======================================================================
@@ -33,7 +36,7 @@ export class App extends React.Component<Empty, AppState> {
           langsContainer={this.langsContainer}
           onLangChange={this.onLangChange}
         />
-        <AppMain />
+        <AppMain lang={this.state.lang}/>
       </>
     );
   }
@@ -78,7 +81,9 @@ class CommentConfig extends React.Component<CommentConfigProps> {
 
 
 // ======================================================================
-type Empty = Record<string, never>
+type AppMainProps = {
+  lang: ProgramLang,
+}
 
 type AppMainState = {
   sourceInput: string,
@@ -88,8 +93,8 @@ type AppMainState = {
   shouldTranslated: boolean,
 }
 
-class AppMain extends React.Component<Empty, AppMainState> {
-  constructor(props: Empty) {
+class AppMain extends React.Component<AppMainProps, AppMainState> {
+  constructor(props: AppMainProps) {
     super(props);
     this.state = {
       sourceInput: '',
@@ -109,7 +114,7 @@ class AppMain extends React.Component<Empty, AppMainState> {
 
   onPreProcessButtonClick = (): void => {
     this.setState({
-      preProcessResult: 'Generate From SourceInput\n-----\n' + this.state.sourceInput,
+      preProcessResult: preprocessSourceCode(this.state.sourceInput, this.props.lang),
       shouldPreProcessed: false,
       shouldTranslated: true,
     });
@@ -127,6 +132,8 @@ class AppMain extends React.Component<Empty, AppMainState> {
       translationResult: 'Generate From PreProcessResult\n-----\n' + this.state.preProcessResult,
       shouldTranslated: false,
     });
+    const url = 'https://www.deepl.com/translator#en/ja/' + encodeURI(this.state.preProcessResult.replace(/\n{2,}/g, '\n\n'));
+    window.open(url, '_blank');
   }
 
   render(): JSX.Element {
@@ -148,11 +155,11 @@ class AppMain extends React.Component<Empty, AppMainState> {
         <div className="AppMainButton">
           <TranslatorButton isHighlight={this.state.shouldTranslated} onClick={this.onTranslatorButtonClick} />
         </div>
-        <div className="AppMainForm">
+        {/* <div className="AppMainForm">
           <span>翻訳結果</span>
           <br />
           <TranslationResult result={this.state.translationResult} />
-        </div>
+        </div> */}
       </div>
     );
   }
