@@ -15,6 +15,8 @@ export interface TextTypeChanger {
   type: TextType,
 }
 
+type NextInfo = {isInSrc: true, changer: undefined} | {isInSrc: false, changer: TextTypeChanger};
+
 
 // ======================================================================
 export class Comment implements TextTypeChanger {
@@ -36,29 +38,27 @@ export class Comment implements TextTypeChanger {
 // ======================================================================
 export class SourceCodeAnalyzer implements Analyzer {
   private typedTexts: TypedText[];
-  private isNextInSrc: boolean;
+  private nextInfo: NextInfo;
   private hasResidual: boolean;
   private residualText: string;
-  private readonly typeChanger: TextTypeChanger;
+  private readonly typeChangers: TextTypeChanger[];
 
-  constructor(typeChanger: TextTypeChanger) {
+  constructor(typeChangers: TextTypeChanger[]) {
     this.typedTexts = [];
-    this.isNextInSrc = true;
+    this.nextInfo = {isInSrc: true, changer: undefined};
     this.hasResidual = true;
     this.residualText = '';
-    this.typeChanger = typeChanger;
+    this.typeChangers = typeChangers;
   }
 
   type(sourceCode: string): TypedText[] {
-    this.setState([], true, true, sourceCode);
+    const nextInfo: NextInfo = {isInSrc: true, changer: undefined};
+    this.setState([], nextInfo, true, sourceCode);
     while (this.hasResidual) {
       const sourceCode = this.residualText;
-      const startsInSrc = this.isNextInSrc;
-      const type = this.typeChanger.type;
-
+      const info: NextInfo = this.nextInfo;
       const pattern = this.getPattern();
-
-      this.typeFromPattern(sourceCode, type, pattern, startsInSrc);
+      this.typeFromPattern(sourceCode, pattern, info);
     }
 
     return this.typedTexts;
@@ -66,30 +66,36 @@ export class SourceCodeAnalyzer implements Analyzer {
 
   private getPattern(): string {
     // 変化文字の前後に0個以上の改行を除くスペースライク文字があるパターン。
-    const pattern = this.isNextInSrc ? this.typeChanger.startPattern : this.typeChanger.endPattern;
+    let pattern: string;
+    if (this.nextInfo.changer === undefined) {
+      pattern = this.typeChangers.map(changer => changer.startPattern).join('|');
+    } else {
+      pattern = this.nextInfo.changer.endPattern;
+    }
+
     const spacePattern = '[^\\S\\n]*';
     return spacePattern + pattern + spacePattern;
   }
 
-  private setState(typedTexts: TypedText[], isNextInSrc: boolean, hasResidual: boolean, residualText: string): void {
+  private setState(typedTexts: TypedText[], nextInfo: NextInfo, hasResidual: boolean, residualText: string): void {
     this.typedTexts = typedTexts;
-    this.isNextInSrc = isNextInSrc;
+    this.nextInfo = nextInfo;
     this.hasResidual = hasResidual;
     this.residualText = residualText;
   }
 
-  private typeFromPattern(sourceCode: string, type: TextType, pattern: string, startsInSrc: boolean): void {
-    const firstType: TextType = startsInSrc ? 'source' : type;
+  private typeFromPattern(sourceCode: string, pattern: string, info: NextInfo): void {
+    const firstType: TextType = info.isInSrc ? 'source' : info.changer.type;
     const regex = new RegExp(pattern);
     const array = regex.exec(sourceCode);
 
     let addTypedTexts: TypedText[];
-    let isNextInSrc: boolean;
+    let nextInfo: NextInfo;
     let hasResidual: boolean;
     let residualText: string;
     if (array === null) {
       addTypedTexts = [{text: sourceCode, type: firstType}];
-      isNextInSrc = startsInSrc;
+      nextInfo = info;
       hasResidual = false;
       residualText = '';
     } else {
@@ -100,12 +106,27 @@ export class SourceCodeAnalyzer implements Analyzer {
         {text: sourceCode.slice(sidx, eidx), type: 'typeChanger'},
       ];
       addTypedTexts = addTypedTexts.filter(p => p.text !== '');
-      isNextInSrc = !startsInSrc;
+      if (info.isInSrc) {
+        nextInfo = {isInSrc: false, changer: this.startPattern2typeChanger(array[0])};
+      } else {
+        nextInfo = {isInSrc: true, changer: undefined};
+      }
       hasResidual = (eidx < sourceCode.length);
       residualText = sourceCode.slice(eidx, sourceCode.length);
     }
 
     const typedTexts = this.typedTexts.concat(addTypedTexts);
-    this.setState(typedTexts, isNextInSrc, hasResidual, residualText);
+    this.setState(typedTexts, nextInfo, hasResidual, residualText);
+  }
+
+  private startPattern2typeChanger(str: string): TextTypeChanger {
+    for (const changer of this.typeChangers) {
+      const pattern = changer.startPattern;
+      const regex = new RegExp(pattern);
+      if (regex.test(str)) {
+        return changer;
+      }
+    }
+    throw new Error('パターンが見つかりません。');
   }
 }
