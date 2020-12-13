@@ -54,18 +54,21 @@ export class SourceCodeAnalyzer implements Analyzer {
     while (this.hasResidual) {
       const sourceCode = this.residualText;
       const startsInSrc = this.isNextInSrc;
-      const typeChanger = this.typeChanger;
+      const type = this.typeChanger.type;
 
-      // 変化文字の前後に0個以上の改行を除くスペースライク文字があるパターン。
-      const spacePattern = '[^\\S\\n]*';
-      const pattern = startsInSrc
-        ? spacePattern + typeChanger.startPattern + spacePattern
-        : spacePattern + typeChanger.endPattern + spacePattern;
+      const pattern = this.getPattern();
 
-      this.typeFromPattern(sourceCode, typeChanger, pattern, startsInSrc);
+      this.typeFromPattern(sourceCode, type, pattern, startsInSrc);
     }
 
     return this.typedTexts;
+  }
+
+  private getPattern(): string {
+    // 変化文字の前後に0個以上の改行を除くスペースライク文字があるパターン。
+    const pattern = this.isNextInSrc ? this.typeChanger.startPattern : this.typeChanger.endPattern;
+    const spacePattern = '[^\\S\\n]*';
+    return spacePattern + pattern + spacePattern;
   }
 
   private setState(typedTexts: TypedText[], isNextInSrc: boolean, hasResidual: boolean, residualText: string): void {
@@ -75,8 +78,8 @@ export class SourceCodeAnalyzer implements Analyzer {
     this.residualText = residualText;
   }
 
-  private typeFromPattern(sourceCode: string, typeChanger: TextTypeChanger, pattern: string, startsInSrc: boolean): void {
-    const firstType: TextType = startsInSrc ? 'source' : typeChanger.type;
+  private typeFromPattern(sourceCode: string, type: TextType, pattern: string, startsInSrc: boolean): void {
+    const firstType: TextType = startsInSrc ? 'source' : type;
     const regex = new RegExp(pattern);
     const array = regex.exec(sourceCode);
 
