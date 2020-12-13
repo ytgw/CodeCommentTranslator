@@ -5,7 +5,7 @@ let analyzer: SourceCodeAnalyzer;
 beforeEach(() => {
   // setup
   const comment = new Comment('//', '\n');
-  analyzer = new SourceCodeAnalyzer(comment);
+  analyzer = new SourceCodeAnalyzer([comment]);
 });
 
 
