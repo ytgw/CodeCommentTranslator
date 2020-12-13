@@ -66,15 +66,17 @@ export class SourceCodeAnalyzer implements Analyzer {
 
   private getPattern(): string {
     // 変化文字の前後に0個以上の改行を除くスペースライク文字があるパターン。
+    const spacePattern = '[^\\S\\n]*';
     let pattern: string;
     if (this.nextInfo.changer === undefined) {
-      pattern = this.typeChangers.map(changer => changer.startPattern).join('|');
+      pattern = this.typeChangers.map(
+        changer => `(${spacePattern}${changer.startPattern}${spacePattern})`
+      ).join('|');
     } else {
-      pattern = this.nextInfo.changer.endPattern;
+      pattern = spacePattern + this.nextInfo.changer.endPattern + spacePattern;
     }
 
-    const spacePattern = '[^\\S\\n]*';
-    return spacePattern + pattern + spacePattern;
+    return pattern;
   }
 
   private setState(typedTexts: TypedText[], nextInfo: NextInfo, hasResidual: boolean, residualText: string): void {
