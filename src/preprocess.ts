@@ -114,6 +114,9 @@ class CommentFormatter {
   }
 
   private format(): string {
+    if (this.lineFormatters.length === 0) {
+      return '';
+    }
     let result = '';
     let newLineNum = 0;
     for (let i = 0; i < this.lineFormatters.length - 1; i++) {

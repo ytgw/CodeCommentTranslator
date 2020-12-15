@@ -1,6 +1,7 @@
+import {Comment} from './sourceCodeAnalyzer';
+
 type LineComment = string
 type BlockComment = {start: string, end: string}
-import {Comment} from './sourceCodeAnalyzer';
 export type ProgramLangName = 'JavaScript or TypeScript' | 'C or C++' | 'Python' | 'Shell'
 
 
@@ -9,33 +10,30 @@ export class ProgramLang {
   private readonly name: ProgramLangName;
   private readonly lineComments: LineComment[];
   private readonly blockComments: {start: string, end: string}[];
-  private readonly comments: Comment[];
 
   constructor(name: ProgramLangName, lineComments: LineComment[], blockComments: BlockComment[]) {
     this.name = name;
     this.lineComments = lineComments;
     this.blockComments = blockComments;
-
-    const comments: Comment[] = [];
-    comments.push(...lineComments.map(str => new Comment(str, '\n')));
-    comments.push(...blockComments.map(obj => new Comment(obj.start, obj.end)));
-    this.comments = comments;
   }
 
   getName(): ProgramLangName {
     return this.name;
   }
 
-  getLineComment(): LineComment {
-    return this.lineComments[0];
+  getLineComments(): LineComment[] {
+    return this.lineComments;
   }
 
-  getBlockComment(): BlockComment {
-    return this.blockComments[0];
+  getBlockComments(): BlockComment[] {
+    return this.blockComments;
   }
 
   getCommens(): Comment[] {
-    return this.comments;
+    const comments: Comment[] = [];
+    comments.push(...this.lineComments.map(str => new Comment(str, '\n')));
+    comments.push(...this.blockComments.map(obj => new Comment(obj.start, obj.end)));
+    return comments;
   }
 }
 
