@@ -1,4 +1,4 @@
-type TextType = 'source' | 'typeChanger' | 'comment'
+type TextType = 'source' | 'typeChanger' | 'comment' | 'stringLiteral'
 
 export interface TypedText {
   text: string,
