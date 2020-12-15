@@ -1,5 +1,5 @@
 import {ProgramLang} from './programmingLanguage';
-import {TypedText, Comment, SourceCodeAnalyzer} from './sourceCodeAnalyzer';
+import {TypedText, SourceCodeAnalyzer} from './sourceCodeAnalyzer';
 
 
 // ======================================================================
@@ -139,11 +139,7 @@ class CommentFormatter {
 
 // ======================================================================
 export function preprocessSourceCode(sourceCode: string, lang: ProgramLang): string {
-  const comments: Comment[] = [
-    new Comment('//', '\n'),
-    new Comment('/*', '*/'),
-  ];
-  const analyzer = new SourceCodeAnalyzer(comments);
+  const analyzer = new SourceCodeAnalyzer(lang.getCommens());
   const typedTexts: TypedText[] = analyzer.type(sourceCode);
   const formatter = new CommentFormatter(typedTexts);
   const document = formatter.getDocument();

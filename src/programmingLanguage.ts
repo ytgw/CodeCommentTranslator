@@ -1,18 +1,25 @@
 type LineComment = string
 type BlockComment = {start: string, end: string}
+import {Comment} from './sourceCodeAnalyzer';
 export type ProgramLangName = 'JavaScript or TypeScript' | 'C or C++' | 'Python' | 'Shell'
 
 
 // ======================================================================
 export class ProgramLang {
   private readonly name: ProgramLangName;
-  private readonly lineComment: LineComment;
-  private readonly blockComment: {start: string, end: string};
+  private readonly lineComments: LineComment[];
+  private readonly blockComments: {start: string, end: string}[];
+  private readonly comments: Comment[];
 
-  constructor(name: ProgramLangName, lineComment: LineComment, blockComment: BlockComment) {
+  constructor(name: ProgramLangName, lineComments: LineComment[], blockComments: BlockComment[]) {
     this.name = name;
-    this.lineComment = lineComment;
-    this.blockComment = blockComment;
+    this.lineComments = lineComments;
+    this.blockComments = blockComments;
+
+    const comments: Comment[] = [];
+    comments.push(...lineComments.map(str => new Comment(str, '\n')));
+    comments.push(...blockComments.map(obj => new Comment(obj.start, obj.end)));
+    this.comments = comments;
   }
 
   getName(): ProgramLangName {
@@ -20,11 +27,15 @@ export class ProgramLang {
   }
 
   getLineComment(): LineComment {
-    return this.lineComment;
+    return this.lineComments[0];
   }
 
   getBlockComment(): BlockComment {
-    return this.blockComment;
+    return this.blockComments[0];
+  }
+
+  getCommens(): Comment[] {
+    return this.comments;
   }
 }
 
@@ -32,10 +43,10 @@ export class ProgramLang {
 // ======================================================================
 export class ProgramLangsContainer {
   private readonly langs: ProgramLang[] = [
-    new ProgramLang('JavaScript or TypeScript', '//', {start: '/*', end: '*/'}),
-    new ProgramLang('C or C++', '//', {start: '/*', end: '*/'}),
-    new ProgramLang('Python', '#', {start: '"""', end: '"""'}),
-    new ProgramLang('Shell', '#', {start: '', end: ''}),
+    new ProgramLang('JavaScript or TypeScript', ['//'], [{start: '/*', end: '*/'}]),
+    new ProgramLang('C or C++', ['//'], [{start: '/*', end: '*/'}]),
+    new ProgramLang('Python', ['#'], [{start: '"""', end: '"""'}, {start: '\'\'\'', end: '\'\'\''}]),
+    new ProgramLang('Shell', ['#'], []),
   ]
 
   getLangs(): ProgramLang[] {
