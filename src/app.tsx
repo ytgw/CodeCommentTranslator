@@ -1,7 +1,7 @@
 import React from 'react';
 import {ProgramLang, ProgramLangsContainer, ProgramLangName} from './programmingLanguage';
 import {preprocessSourceCode} from './preprocess';
-import {SourceInput, PreProcessButton, PreProcessResult, TranslatorButton, TranslationResult} from './appMainComponents';
+import {SourceInput, PreProcessButton, PreProcessResult, TranslatorButton} from './appMainComponents';
 import './index.css';
 
 type Empty = Record<string, never>
@@ -67,13 +67,15 @@ class CommentConfig extends React.Component<CommentConfigProps> {
   }
 
   render(): JSX.Element {
+    const lineComments = this.props.lang.getLineComments();
+    const blockComments = this.props.lang.getBlockComments();
     return (
       <div className="CommentConfig">
         プログラミング言語：{this.renderSelectLang()}
         <br />
-        ラインコメント：「{this.props.lang.getLineComment()}」
+        ラインコメント：{lineComments.map(str => `「${str}」`).join(', ')}
         <br />
-        ブロックコメント：「{this.props.lang.getBlockComment().start}」~「{this.props.lang.getBlockComment().end}」
+        ブロックコメント：{blockComments.map(obj => `「${obj.start}〜${obj.end}」`).join(', ')}
       </div>
     );
   }
