@@ -179,7 +179,7 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
         <br />
         {this.renderCustomStringLiteral()}
         <br />
-        <input type="submit" value="Submit" className="Submit" />
+        <input type="submit" value="入力内容を設定" className="Submit" />
       </form>
     );
   }
