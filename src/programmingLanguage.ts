@@ -12,9 +12,9 @@ export class ProgramLang {
 
   constructor(name: ProgramLangName, lineComments: string[], blockComments: SetString[], stringLiterals: SetString[]) {
     this.name = name;
-    this.lineComments = lineComments;
-    this.blockComments = blockComments;
-    this.stringLiterals = stringLiterals;
+    this.lineComments = lineComments.filter(str => str !== '');
+    this.blockComments = blockComments.filter(val => (val.start !== '') && (val.end !== ''));
+    this.stringLiterals = stringLiterals.filter(val => (val.start !== '') && (val.end !== ''));
   }
 
   getName(): ProgramLangName {
@@ -26,7 +26,7 @@ export class ProgramLang {
   }
 
   setLineComments(lineComments: string[]): void {
-    this.lineComments = lineComments;
+    this.lineComments = lineComments.filter(str => str !== '');
   }
 
   getBlockComments(): SetString[] {
@@ -34,7 +34,7 @@ export class ProgramLang {
   }
 
   setBlockComments(blockComments: SetString[]): void {
-    this.blockComments = blockComments;
+    this.blockComments = blockComments.filter(val => (val.start !== '') && (val.end !== ''));
   }
 
   getStringLeterals(): SetString[] {
@@ -42,7 +42,7 @@ export class ProgramLang {
   }
 
   setStringLeterals(stringLiterals: SetString[]): void {
-    this.stringLiterals = stringLiterals;
+    this.stringLiterals = stringLiterals.filter(val => (val.start !== '') && (val.end !== ''));
   }
 
   getTextTypeChangers(): TextTypeChanger[] {
