@@ -10,13 +10,19 @@ h1 {
 
 .Manual {
   background: #ffffff;
-  text-align: center;
+  text-align: left;
+  width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ====================================================================== */
 .CommentConfig {
   background: #ffffff;
-  text-align: center;
+  text-align: left;
+  width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* ====================================================================== */
@@ -47,11 +53,12 @@ textarea {
 }
 
 .AppMainButton {
-  width: 150px;
+  width: 50px;
   margin: 10px;
+  writing-mode: vertical-rl;
 }
 
 button {
   width: 100%;
-  height: 50px;
+  height: 150px;
 }
