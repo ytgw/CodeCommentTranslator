@@ -38,7 +38,7 @@ export class AppMain extends React.Component<AppMainProps, AppMainState> {
   }
 
   onPreProcessButtonClick = (): void => {
-    if (this.props.lang.getTextTypeChangers.length === 0) {
+    if (this.props.lang.getTextTypeChangers().length === 0) {
       const message = 'ラインコメント、ブロックコメント、文字リテラルのいずれかを設定してください。';
       alert(message);
       return;
