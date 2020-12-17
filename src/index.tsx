@@ -1,34 +1,52 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {App} from './app';
+import {ProgramLang, ProgramLangsContainer, ProgramLangName} from './programmingLanguage';
+import {CommentConfig} from './commentConfig';
+import {AppMain} from './app';
 import './index.css';
 
+
 // ======================================================================
-function Top(): JSX.Element {
-  return (
-    <>
-      <div>
-        <Title />
-        <Manual />
-      </div>
-      <div>
-        <App />
-      </div>
-    </>
-  );
+type Empty = Record<string, never>
+
+type AppState = {
+  lang: ProgramLang,
 }
 
-function Title(): JSX.Element {
-  return (<h1>Source Code Comment Translator</h1>);
-}
+export class App extends React.Component<Empty, AppState> {
+  private readonly langsContainer: ProgramLangsContainer = new ProgramLangsContainer();
 
-function Manual(): JSX.Element {
-  return (<div className="Manual">Manualは未実装</div>);
+  constructor(props: Empty) {
+    super(props);
+    this.state = {
+      lang: this.langsContainer.getLangs()[0]
+    };
+  }
+
+  onLangChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    this.setState({
+      lang: this.langsContainer.name2lang(event.target.value as ProgramLangName)
+    });
+  }
+
+  render(): JSX.Element {
+    return (
+      <>
+        <CommentConfig
+          lang={this.state.lang}
+          langsContainer={this.langsContainer}
+          isCustomLang={this.state.lang.getName() === 'Custom'}
+          onLangChange={this.onLangChange}
+        />
+        <AppMain lang={this.state.lang}/>
+      </>
+    );
+  }
 }
 
 
 // ======================================================================
 ReactDOM.render(
-  <Top />,
+  <App />,
   document.getElementById('root')
 );

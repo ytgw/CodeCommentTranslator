@@ -1,17 +1,15 @@
-import {Comment} from './sourceCodeAnalyzer';
+import {Comment, SetString} from './sourceCodeAnalyzer';
 
-type LineComment = string
-type BlockComment = {start: string, end: string}
-export type ProgramLangName = 'JavaScript or TypeScript' | 'C or C++' | 'Python' | 'Shell'
+export type ProgramLangName = 'JavaScript or TypeScript' | 'C or C++' | 'Python' | 'Shell' | 'Custom'
 
 
 // ======================================================================
 export class ProgramLang {
   private readonly name: ProgramLangName;
-  private readonly lineComments: LineComment[];
-  private readonly blockComments: {start: string, end: string}[];
+  private lineComments: string[];
+  private blockComments: SetString[];
 
-  constructor(name: ProgramLangName, lineComments: LineComment[], blockComments: BlockComment[]) {
+  constructor(name: ProgramLangName, lineComments: string[], blockComments: SetString[]) {
     this.name = name;
     this.lineComments = lineComments;
     this.blockComments = blockComments;
@@ -21,12 +19,20 @@ export class ProgramLang {
     return this.name;
   }
 
-  getLineComments(): LineComment[] {
+  getLineComments(): string[] {
     return this.lineComments;
   }
 
-  getBlockComments(): BlockComment[] {
+  setLineComments(lineComments: string[]): void {
+    this.lineComments = lineComments;
+  }
+
+  getBlockComments(): SetString[] {
     return this.blockComments;
+  }
+
+  setBlockComments(blockComments: SetString[]): void {
+    this.blockComments = blockComments;
   }
 
   getCommens(): Comment[] {
@@ -45,6 +51,7 @@ export class ProgramLangsContainer {
     new ProgramLang('C or C++', ['//'], [{start: '/*', end: '*/'}]),
     new ProgramLang('Python', ['#'], [{start: '"""', end: '"""'}, {start: '\'\'\'', end: '\'\'\''}]),
     new ProgramLang('Shell', ['#'], []),
+    new ProgramLang('Custom', [], []),
   ]
 
   getLangs(): ProgramLang[] {
