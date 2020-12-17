@@ -3,21 +3,21 @@ import {SetString} from './sourceCodeAnalyzer';
 import {ProgramLang, ProgramLangsContainer} from './programmingLanguage';
 import './index.css';
 
-type CommentConfigProps = {
+type LangConfigProps = {
   lang: ProgramLang,
   langsContainer: ProgramLangsContainer,
   isCustomLang: boolean,
   onLangChange: (event: React.ChangeEvent<HTMLSelectElement>) => void,
 }
 
-type CommentConfigState = {
+type LangConfigState = {
   lineComments: string[],
   blockComments: SetString[],
   stringLeterals: SetString[],
 }
 
-export class CommentConfig extends React.Component<CommentConfigProps, CommentConfigState> {
-  constructor(props: CommentConfigProps) {
+export class LangConfig extends React.Component<LangConfigProps, LangConfigState> {
+  constructor(props: LangConfigProps) {
     super(props);
     this.state = {
       lineComments: [],
