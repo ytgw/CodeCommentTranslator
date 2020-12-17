@@ -84,19 +84,24 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
     return <>{inputElements}</>;
   }
 
-  onBlockCommentsChange(str: string, idx: number, isStart: boolean): void {
-    const blockComments = this.state.blockComments;
+  onSetStringChange(setStrings: SetString[], str: string, idx: number, isStart: boolean): SetString[] {
     let start: string;
     let end: string;
-    if (idx < blockComments.length) {
-      start = isStart ? str : blockComments[idx].start;
-      end = !isStart ? str : blockComments[idx].end;
-      blockComments[idx] = {start, end};
+    if (idx < setStrings.length) {
+      start = isStart ? str : setStrings[idx].start;
+      end = !isStart ? str : setStrings[idx].end;
+      setStrings[idx] = {start, end};
     } else {
       start = isStart ? str : '';
       end = !isStart ? str : '';
-      blockComments.push({start, end});
+      setStrings.push({start, end});
     }
+    return setStrings;
+  }
+
+  onBlockCommentsChange(str: string, idx: number, isStart: boolean): void {
+    let blockComments = this.state.blockComments;
+    blockComments = this.onSetStringChange(blockComments, str, idx, isStart);
     this.setState({blockComments: blockComments});
   }
 
@@ -128,18 +133,8 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
   }
 
   onStringLiteralsChange(str: string, idx: number, isStart: boolean): void {
-    const stringLiterals = this.state.stringLeterals;
-    let start: string;
-    let end: string;
-    if (idx < stringLiterals.length) {
-      start = isStart ? str : stringLiterals[idx].start;
-      end = !isStart ? str : stringLiterals[idx].end;
-      stringLiterals[idx] = {start, end};
-    } else {
-      start = isStart ? str : '';
-      end = !isStart ? str : '';
-      stringLiterals.push({start, end});
-    }
+    let stringLiterals = this.state.stringLeterals;
+    stringLiterals = this.onSetStringChange(stringLiterals, str, idx, isStart);
     this.setState({stringLeterals: stringLiterals});
   }
 
