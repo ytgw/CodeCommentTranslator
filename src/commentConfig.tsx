@@ -107,14 +107,23 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
 
   renderCustomBlockComment(): JSX.Element {
     const blockComments = this.state.blockComments;
-    const inputElements: (string | JSX.Element)[] = ['ブロックコメント：「'];
-    for (let i = 0; i <= blockComments.length; i++) {
-      const value = (i === blockComments.length) ? {start: '', end: ''} : blockComments[i];
+    const onChange = (str: string, idx: number, isStart: boolean): void => this.onBlockCommentsChange(str, idx, isStart);
+    return this.renderSetString('ブロックコメント', blockComments, onChange);
+  }
+
+  renderSetString(
+    label: string,
+    setString: SetString[],
+    onChange: (str: string, idx: number, isStart: boolean) => void
+  ): JSX.Element {
+    const inputElements: (string | JSX.Element)[] = [label + '：「'];
+    for (let i = 0; i <= setString.length; i++) {
+      const value = (i === setString.length) ? {start: '', end: ''} : setString[i];
       inputElements.push(
         <input
           type="text"
           value={value.start}
-          onChange={(e): void => this.onBlockCommentsChange(e.target.value, i, true)}
+          onChange={(e): void => onChange(e.target.value, i, true)}
           key={'blockCommentStart' + i.toString()}
         />
       );
@@ -123,7 +132,7 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
         <input
           type="text"
           value={value.end}
-          onChange={(e): void => this.onBlockCommentsChange(e.target.value, i, false)}
+          onChange={(e): void => onChange(e.target.value, i, false)}
           key={'blockCommentEnd' + i.toString()}
         />
       );
@@ -140,29 +149,8 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
 
   renderCustomStringLiteral(): JSX.Element {
     const stringLiterals = this.state.stringLeterals;
-    const inputElements: (string | JSX.Element)[] = ['文字列リテラル：「'];
-    for (let i = 0; i <= stringLiterals.length; i++) {
-      const value = (i === stringLiterals.length) ? {start: '', end: ''} : stringLiterals[i];
-      inputElements.push(
-        <input
-          type="text"
-          value={value.start}
-          onChange={(e): void => this.onStringLiteralsChange(e.target.value, i, true)}
-          key={'stringLiteralStart' + i.toString()}
-        />
-      );
-      inputElements.push('〜');
-      inputElements.push(
-        <input
-          type="text"
-          value={value.end}
-          onChange={(e): void => this.onStringLiteralsChange(e.target.value, i, false)}
-          key={'stringLiteralEnd' + i.toString()}
-        />
-      );
-      inputElements.push('」、');
-    }
-    return <>{inputElements}</>;
+    const onChange = (str: string, idx: number, isStart: boolean): void => this.onStringLiteralsChange(str, idx, isStart);
+    return this.renderSetString('文字列リテラル', stringLiterals, onChange);
   }
 
   onSubmit(event: React.FormEvent<HTMLFormElement>): void {
