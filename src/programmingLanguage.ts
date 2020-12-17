@@ -1,4 +1,4 @@
-import {Comment, SetString} from './sourceCodeAnalyzer';
+import {SetString, TextTypeChanger, Comment, StringLiteral} from './sourceCodeAnalyzer';
 
 export type ProgramLangName = 'JavaScript or TypeScript' | 'C or C++' | 'Python' | 'Shell' | 'Custom'
 
@@ -8,11 +8,13 @@ export class ProgramLang {
   private readonly name: ProgramLangName;
   private lineComments: string[];
   private blockComments: SetString[];
+  private stringLiterals: SetString[];
 
-  constructor(name: ProgramLangName, lineComments: string[], blockComments: SetString[]) {
+  constructor(name: ProgramLangName, lineComments: string[], blockComments: SetString[], stringLiterals: SetString[]) {
     this.name = name;
     this.lineComments = lineComments;
     this.blockComments = blockComments;
+    this.stringLiterals = stringLiterals;
   }
 
   getName(): ProgramLangName {
@@ -35,11 +37,20 @@ export class ProgramLang {
     this.blockComments = blockComments;
   }
 
-  getCommens(): Comment[] {
-    const comments: Comment[] = [];
-    comments.push(...this.lineComments.map(str => new Comment(str, '\n')));
-    comments.push(...this.blockComments.map(obj => new Comment(obj.start, obj.end)));
-    return comments;
+  getStringLeterals(): SetString[] {
+    return this.stringLiterals;
+  }
+
+  setStringLeterals(stringLiterals: SetString[]): void {
+    this.stringLiterals = stringLiterals;
+  }
+
+  getTextTypeChangers(): TextTypeChanger[] {
+    const changers: TextTypeChanger[] = [];
+    changers.push(...this.lineComments.map(str => new Comment(str, '\n')));
+    changers.push(...this.blockComments.map(obj => new Comment(obj.start, obj.end)));
+    changers.push(...this.stringLiterals.map(obj => new StringLiteral(obj.start, obj.end)));
+    return changers;
   }
 }
 
@@ -47,11 +58,11 @@ export class ProgramLang {
 // ======================================================================
 export class ProgramLangsContainer {
   private readonly langs: ProgramLang[] = [
-    new ProgramLang('JavaScript or TypeScript', ['//'], [{start: '/*', end: '*/'}]),
-    new ProgramLang('C or C++', ['//'], [{start: '/*', end: '*/'}]),
-    new ProgramLang('Python', ['#'], [{start: '"""', end: '"""'}, {start: '\'\'\'', end: '\'\'\''}]),
-    new ProgramLang('Shell', ['#'], []),
-    new ProgramLang('Custom', [], []),
+    new ProgramLang('JavaScript or TypeScript', ['//'], [{start: '/*', end: '*/'}], [{start: '\'', end: '\''}, {start: '"', end: '"'}, {start: '`', end: '`'}]),
+    new ProgramLang('C or C++', ['//'], [{start: '/*', end: '*/'}], [{start: '\'', end: '\''}, {start: '"', end: '"'}]),
+    new ProgramLang('Python', ['#'], [{start: '"""', end: '"""'}, {start: '\'\'\'', end: '\'\'\''}], [{start: '\'', end: '\''}, {start: '"', end: '"'}]),
+    new ProgramLang('Shell', ['#'], [], [{start: '\'', end: '\''}, {start: '"', end: '"'}, {start: '`', end: '`'}]),
+    new ProgramLang('Custom', [], [], []),
   ]
 
   getLangs(): ProgramLang[] {

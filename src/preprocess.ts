@@ -142,7 +142,7 @@ class CommentFormatter {
 
 // ======================================================================
 export function preprocessSourceCode(sourceCode: string, lang: ProgramLang): string {
-  const analyzer = new SourceCodeAnalyzer(lang.getCommens());
+  const analyzer = new SourceCodeAnalyzer(lang.getTextTypeChangers());
   const typedTexts: TypedText[] = analyzer.type(sourceCode);
   const formatter = new CommentFormatter(typedTexts);
   const document = formatter.getDocument();
