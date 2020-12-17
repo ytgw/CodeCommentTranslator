@@ -1,12 +1,10 @@
 type TextType = 'source' | 'typeChanger' | 'comment' | 'stringLiteral'
 
+type NextInfo = {isInSrc: true, changer: undefined} | {isInSrc: false, changer: TextTypeChanger};
+
 export interface TypedText {
   text: string,
   type: TextType,
-}
-
-export interface Analyzer {
-  type: (sourceCode: string) => TypedText[],
 }
 
 export interface TextTypeChanger {
@@ -15,7 +13,9 @@ export interface TextTypeChanger {
   type: TextType,
 }
 
-type NextInfo = {isInSrc: true, changer: undefined} | {isInSrc: false, changer: TextTypeChanger};
+interface Analyzer {
+  type: (sourceCode: string) => TypedText[],
+}
 
 
 // ======================================================================

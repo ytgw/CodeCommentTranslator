@@ -50,16 +50,6 @@ export class CommentConfig extends React.Component<CommentConfigProps, CommentCo
     );
   }
 
-  renderCustomCommentForms(str: string, inputNum: number, onChange: (comment: string, commentIdx: number) => void): JSX.Element {
-    const children: (string | JSX.Element)[] = [str];
-    for (let i = 0; i < inputNum; i++) {
-      children.push(
-        <input type="text" value={this.state.lineComments[i]} onChange={(e): void => onChange(e.target.value, i)} key={i} />
-      );
-    }
-    return <label>{children}</label>;
-  }
-
   onLineCommentsChange(comment: string, commentIdx: number): void {
     const lineComments = this.state.lineComments;
     if (commentIdx < lineComments.length) {
@@ -104,7 +94,7 @@ export class CommentConfig extends React.Component<CommentConfigProps, CommentCo
     this.setState({blockComments: blockComments});
   }
 
-  renderCustomBineComment(): JSX.Element {
+  renderCustomBlockComment(): JSX.Element {
     const blockComments = this.state.blockComments;
     const inputElements: (string | JSX.Element)[] = ['ブロックコメント：「'];
     for (let i = 0; i <= blockComments.length; i++) {
@@ -114,7 +104,7 @@ export class CommentConfig extends React.Component<CommentConfigProps, CommentCo
           type="text"
           value={value.start}
           onChange={(e): void => this.onBlockCommentsChange(e.target.value, i, true)}
-          key={'blockComment' + i.toString()}
+          key={'blockCommentStart' + i.toString()}
         />
       );
       inputElements.push('〜');
@@ -123,7 +113,7 @@ export class CommentConfig extends React.Component<CommentConfigProps, CommentCo
           type="text"
           value={value.end}
           onChange={(e): void => this.onBlockCommentsChange(e.target.value, i, false)}
-          key={i}
+          key={'blockCommentEnd' + i.toString()}
         />
       );
       inputElements.push('」、');
@@ -151,7 +141,7 @@ export class CommentConfig extends React.Component<CommentConfigProps, CommentCo
       <form onSubmit={(e): void => this.onSubmit(e)}>
         {this.renderCustomLineComment()}
         <br />
-        {this.renderCustomBineComment()}
+        {this.renderCustomBlockComment()}
         <br />
         <input type="submit" value="Submit" className="Submit" />
       </form>
