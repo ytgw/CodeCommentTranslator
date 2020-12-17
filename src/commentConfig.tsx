@@ -13,6 +13,7 @@ type CommentConfigProps = {
 type CommentConfigState = {
   lineComments: string[],
   blockComments: SetString[],
+  stringLeterals: SetString[],
 }
 
 export class CommentConfig extends React.Component<CommentConfigProps, CommentConfigState> {
@@ -21,6 +22,7 @@ export class CommentConfig extends React.Component<CommentConfigProps, CommentCo
     this.state = {
       lineComments: [],
       blockComments: [],
+      stringLeterals: [],
     };
   }
 
@@ -42,11 +44,14 @@ export class CommentConfig extends React.Component<CommentConfigProps, CommentCo
   renderNormalComment(): JSX.Element {
     const lineComments = this.props.lang.getLineComments();
     const blockComments = this.props.lang.getBlockComments();
+    const stringLeterals = this.props.lang.getStringLeterals();
     return (
       <>
         ラインコメント：{lineComments.map(str => `「${str}」`).join(', ')}
         <br />
         ブロックコメント：{blockComments.map(obj => `「${obj.start}〜${obj.end}」`).join(', ')}
+        <br />
+        文字列リテラル：{stringLeterals.map(obj => `「${obj.start}〜${obj.end}」`).join(', ')}
       </>
     );
   }
@@ -122,17 +127,62 @@ export class CommentConfig extends React.Component<CommentConfigProps, CommentCo
     return <>{inputElements}</>;
   }
 
+  onStringLiteralsChange(str: string, idx: number, isStart: boolean): void {
+    const stringLiterals = this.state.stringLeterals;
+    let start: string;
+    let end: string;
+    if (idx < stringLiterals.length) {
+      start = isStart ? str : stringLiterals[idx].start;
+      end = !isStart ? str : stringLiterals[idx].end;
+      stringLiterals[idx] = {start, end};
+    } else {
+      start = isStart ? str : '';
+      end = !isStart ? str : '';
+      stringLiterals.push({start, end});
+    }
+    this.setState({stringLeterals: stringLiterals});
+  }
+
+  renderCustomStringLiteral(): JSX.Element {
+    const stringLiterals = this.state.stringLeterals;
+    const inputElements: (string | JSX.Element)[] = ['文字列リテラル：「'];
+    for (let i = 0; i <= stringLiterals.length; i++) {
+      const value = (i === stringLiterals.length) ? {start: '', end: ''} : stringLiterals[i];
+      inputElements.push(
+        <input
+          type="text"
+          value={value.start}
+          onChange={(e): void => this.onStringLiteralsChange(e.target.value, i, true)}
+          key={'stringLiteralStart' + i.toString()}
+        />
+      );
+      inputElements.push('〜');
+      inputElements.push(
+        <input
+          type="text"
+          value={value.end}
+          onChange={(e): void => this.onStringLiteralsChange(e.target.value, i, false)}
+          key={'stringLiteralEnd' + i.toString()}
+        />
+      );
+      inputElements.push('」、');
+    }
+    return <>{inputElements}</>;
+  }
+
   onSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     if (this.props.isCustomLang) {
       this.props.lang.setLineComments(this.state.lineComments);
       this.props.lang.setBlockComments(this.state.blockComments);
+      this.props.lang.setStringLeterals(this.state.stringLeterals);
     }
 
     const messages: string[] = [
       'Customプログラム言語のコメント設定が反映されました。',
       'ラインコメント：「' + this.props.lang.getLineComments().join('」、「') + '」',
       'ブロックコメント：' + this.props.lang.getBlockComments().map(v => `「${v.start}〜${v.end}」`).join('、'),
+      '文字リテラル：' + this.props.lang.getStringLeterals().map(v => `「${v.start}〜${v.end}」`).join('、'),
     ];
     alert(messages.join('\n'));
   }
@@ -143,6 +193,8 @@ export class CommentConfig extends React.Component<CommentConfigProps, CommentCo
         {this.renderCustomLineComment()}
         <br />
         {this.renderCustomBlockComment()}
+        <br />
+        {this.renderCustomStringLiteral()}
         <br />
         <input type="submit" value="Submit" className="Submit" />
       </form>
