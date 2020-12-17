@@ -51,12 +51,12 @@ export class CommentConfig extends React.Component<CommentConfigProps, CommentCo
     );
   }
 
-  onLineCommentsChange(comment: string, commentIdx: number): void {
+  onLineCommentsChange(str: string, idx: number): void {
     const lineComments = this.state.lineComments;
-    if (commentIdx < lineComments.length) {
-      lineComments[commentIdx] = comment;
+    if (idx < lineComments.length) {
+      lineComments[idx] = str;
     } else {
-      lineComments.push(comment);
+      lineComments.push(str);
     }
     this.setState({lineComments: lineComments});
   }
@@ -79,17 +79,17 @@ export class CommentConfig extends React.Component<CommentConfigProps, CommentCo
     return <>{inputElements}</>;
   }
 
-  onBlockCommentsChange(comment: string, commentIdx: number, isStart: boolean): void {
+  onBlockCommentsChange(str: string, idx: number, isStart: boolean): void {
     const blockComments = this.state.blockComments;
     let start: string;
     let end: string;
-    if (commentIdx < blockComments.length) {
-      start = isStart ? comment : blockComments[commentIdx].start;
-      end = !isStart ? comment : blockComments[commentIdx].end;
-      blockComments[commentIdx] = {start, end};
+    if (idx < blockComments.length) {
+      start = isStart ? str : blockComments[idx].start;
+      end = !isStart ? str : blockComments[idx].end;
+      blockComments[idx] = {start, end};
     } else {
-      start = isStart ? comment : '';
-      end = !isStart ? comment : '';
+      start = isStart ? str : '';
+      end = !isStart ? str : '';
       blockComments.push({start, end});
     }
     this.setState({blockComments: blockComments});
