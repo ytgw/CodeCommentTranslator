@@ -1,4 +1,5 @@
 import React from 'react';
+import {SetString} from './sourceCodeAnalyzer';
 import {ProgramLang, ProgramLangsContainer} from './programmingLanguage';
 import './index.css';
 
@@ -11,7 +12,7 @@ type CommentConfigProps = {
 
 type CommentConfigState = {
   lineComments: string[],
-  blockComments: {start: string, end: string}[],
+  blockComments: SetString[],
 }
 
 export class CommentConfig extends React.Component<CommentConfigProps, CommentConfigState> {

@@ -7,6 +7,11 @@ export interface TypedText {
   type: TextType,
 }
 
+export interface SetString {
+  start: string,
+  end: string,
+}
+
 export interface TextTypeChanger {
   startPattern: string,
   endPattern: string,

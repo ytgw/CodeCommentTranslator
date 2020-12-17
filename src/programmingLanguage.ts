@@ -1,17 +1,15 @@
-import {Comment} from './sourceCodeAnalyzer';
+import {Comment, SetString} from './sourceCodeAnalyzer';
 
-type LineComment = string
-type BlockComment = {start: string, end: string}
 export type ProgramLangName = 'JavaScript or TypeScript' | 'C or C++' | 'Python' | 'Shell' | 'Custom'
 
 
 // ======================================================================
 export class ProgramLang {
   private readonly name: ProgramLangName;
-  private lineComments: LineComment[];
-  private blockComments: {start: string, end: string}[];
+  private lineComments: string[];
+  private blockComments: SetString[];
 
-  constructor(name: ProgramLangName, lineComments: LineComment[], blockComments: BlockComment[]) {
+  constructor(name: ProgramLangName, lineComments: string[], blockComments: SetString[]) {
     this.name = name;
     this.lineComments = lineComments;
     this.blockComments = blockComments;
@@ -21,19 +19,19 @@ export class ProgramLang {
     return this.name;
   }
 
-  getLineComments(): LineComment[] {
+  getLineComments(): string[] {
     return this.lineComments;
   }
 
-  setLineComments(lineComments: LineComment[]): void {
+  setLineComments(lineComments: string[]): void {
     this.lineComments = lineComments;
   }
 
-  getBlockComments(): BlockComment[] {
+  getBlockComments(): SetString[] {
     return this.blockComments;
   }
 
-  setBlockComments(blockComments: BlockComment[]): void {
+  setBlockComments(blockComments: SetString[]): void {
     this.blockComments = blockComments;
   }
 
