@@ -40,6 +40,25 @@ export class Comment implements TextTypeChanger {
   }
 }
 
+
+// ======================================================================
+export class StringLiteral implements TextTypeChanger {
+  readonly startPattern: string;
+  readonly endPattern: string;
+  readonly type: TextType;
+
+  constructor(start: string, end: string) {
+    this.startPattern = this.toPattern(start);
+    this.endPattern = this.toPattern(end);
+    this.type = 'stringLiteral';
+  }
+
+  private toPattern(str: string): string {
+    return str.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&');
+  }
+}
+
+
 // ======================================================================
 export class SourceCodeAnalyzer implements Analyzer {
   private typedTexts: TypedText[];
