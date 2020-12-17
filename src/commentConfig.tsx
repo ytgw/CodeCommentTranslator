@@ -99,18 +99,6 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
     return setStrings;
   }
 
-  onBlockCommentsChange(str: string, idx: number, isStart: boolean): void {
-    let blockComments = this.state.blockComments;
-    blockComments = this.onSetStringChange(blockComments, str, idx, isStart);
-    this.setState({blockComments: blockComments});
-  }
-
-  renderCustomBlockComment(): JSX.Element {
-    const blockComments = this.state.blockComments;
-    const onChange = (str: string, idx: number, isStart: boolean): void => this.onBlockCommentsChange(str, idx, isStart);
-    return this.renderSetString('ブロックコメント', blockComments, onChange);
-  }
-
   renderSetString(
     label: string,
     setString: SetString[],
@@ -139,6 +127,18 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
       inputElements.push('」、');
     }
     return <>{inputElements}</>;
+  }
+
+  onBlockCommentsChange(str: string, idx: number, isStart: boolean): void {
+    let blockComments = this.state.blockComments;
+    blockComments = this.onSetStringChange(blockComments, str, idx, isStart);
+    this.setState({blockComments: blockComments});
+  }
+
+  renderCustomBlockComment(): JSX.Element {
+    const blockComments = this.state.blockComments;
+    const onChange = (str: string, idx: number, isStart: boolean): void => this.onBlockCommentsChange(str, idx, isStart);
+    return this.renderSetString('ブロックコメント', blockComments, onChange);
   }
 
   onStringLiteralsChange(str: string, idx: number, isStart: boolean): void {
