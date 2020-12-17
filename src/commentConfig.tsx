@@ -41,7 +41,7 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
     );
   }
 
-  renderNormalComment(): JSX.Element {
+  renderNormalLang(): JSX.Element {
     const lineComments = this.props.lang.getLineComments();
     const blockComments = this.props.lang.getBlockComments();
     const stringLeterals = this.props.lang.getStringLeterals();
@@ -187,7 +187,7 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
     alert(messages.join('\n'));
   }
 
-  renderCustomComment(): JSX.Element {
+  renderCustomLang(): JSX.Element {
     return (
       <form onSubmit={(e): void => this.onSubmit(e)}>
         {this.renderCustomLineComment()}
@@ -202,7 +202,7 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
   }
 
   render(): JSX.Element {
-    const commentElement = this.props.isCustomLang ? this.renderCustomComment() : this.renderNormalComment();
+    const commentElement = this.props.isCustomLang ? this.renderCustomLang() : this.renderNormalLang();
     return (
       <div className="CommentConfig">
         プログラミング言語：{this.renderSelectLang()}
