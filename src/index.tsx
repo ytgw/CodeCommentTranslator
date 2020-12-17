@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {ProgramLang, ProgramLangsContainer, ProgramLangName} from './programmingLanguage';
-import {CommentConfig} from './commentConfig';
+import {LangConfig} from './commentConfig';
 import {AppMain} from './app';
 import './index.css';
 
@@ -32,7 +32,7 @@ export class App extends React.Component<Empty, AppState> {
   render(): JSX.Element {
     return (
       <>
-        <CommentConfig
+        <LangConfig
           lang={this.state.lang}
           langsContainer={this.langsContainer}
           isCustomLang={this.state.lang.getName() === 'Custom'}
