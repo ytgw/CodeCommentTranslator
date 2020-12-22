@@ -9,11 +9,19 @@ h1 {
 }
 
 .Manual {
-  background: #eeeeee;
+  background: #ffffff;
+  text-align: center;
+}
+
+.Manual > h2 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.Manual > ol {
+  margin-top: 5px;
+  display: inline-block;
   text-align: left;
-  width: 700px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /* ====================================================================== */

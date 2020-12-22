@@ -79,7 +79,11 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
           key={'lineComment' + i.toString()}
         />
       );
-      inputElements.push('」、');
+      let pushedTxt = '」';
+      if (i < lineComments.length) {
+        pushedTxt += ', 「';
+      }
+      inputElements.push(pushedTxt);
     }
     return <>{inputElements}</>;
   }
@@ -124,7 +128,11 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
           key={'blockCommentEnd' + i.toString()}
         />
       );
-      inputElements.push('」、');
+      let pushedTxt = '」';
+      if (i < setString.length) {
+        pushedTxt += ', 「';
+      }
+      inputElements.push(pushedTxt);
     }
     return <>{inputElements}</>;
   }
@@ -161,11 +169,20 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
       this.props.lang.setStringLeterals(this.state.stringLeterals);
     }
 
+    const lineCommentsMsg = (this.props.lang.getLineComments().length > 0)
+      ? this.props.lang.getLineComments().map(v => `「${v}」`).join(', ')
+      : 'なし';
+    const blockCommentsMsg = (this.props.lang.getBlockComments().length > 0)
+      ? this.props.lang.getBlockComments().map(v => `「${v.start}〜${v.end}」`).join(', ')
+      : 'なし';
+    const stringLiteralsMsg = (this.props.lang.getStringLeterals().length > 0)
+      ? this.props.lang.getStringLeterals().map(v => `「${v.start}〜${v.end}」`).join(', ')
+      : 'なし';
     const messages: string[] = [
-      'Customプログラム言語のコメント設定が反映されました。',
-      'ラインコメント：「' + this.props.lang.getLineComments().join('」、「') + '」',
-      'ブロックコメント：' + this.props.lang.getBlockComments().map(v => `「${v.start}〜${v.end}」`).join('、'),
-      '文字リテラル：' + this.props.lang.getStringLeterals().map(v => `「${v.start}〜${v.end}」`).join('、'),
+      'Customプログラム言語の設定が反映されました。',
+      'ラインコメント：' + lineCommentsMsg,
+      'ブロックコメント：' + blockCommentsMsg,
+      '文字リテラル：' + stringLiteralsMsg,
     ];
     alert(messages.join('\n'));
   }
