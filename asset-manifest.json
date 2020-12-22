@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/CodeCommentTranslator/static/css/main.cdaeda97.chunk.css",
-    "main.js": "/CodeCommentTranslator/static/js/main.452775f5.chunk.js",
-    "main.js.map": "/CodeCommentTranslator/static/js/main.452775f5.chunk.js.map",
+    "main.css": "/CodeCommentTranslator/static/css/main.e9c724cc.chunk.css",
+    "main.js": "/CodeCommentTranslator/static/js/main.82dde54f.chunk.js",
+    "main.js.map": "/CodeCommentTranslator/static/js/main.82dde54f.chunk.js.map",
     "runtime-main.js": "/CodeCommentTranslator/static/js/runtime-main.f9b46eab.js",
     "runtime-main.js.map": "/CodeCommentTranslator/static/js/runtime-main.f9b46eab.js.map",
     "static/js/2.05a3e4bc.chunk.js": "/CodeCommentTranslator/static/js/2.05a3e4bc.chunk.js",
     "static/js/2.05a3e4bc.chunk.js.map": "/CodeCommentTranslator/static/js/2.05a3e4bc.chunk.js.map",
     "index.html": "/CodeCommentTranslator/index.html",
-    "static/css/main.cdaeda97.chunk.css.map": "/CodeCommentTranslator/static/css/main.cdaeda97.chunk.css.map",
+    "static/css/main.e9c724cc.chunk.css.map": "/CodeCommentTranslator/static/css/main.e9c724cc.chunk.css.map",
     "static/js/2.05a3e4bc.chunk.js.LICENSE.txt": "/CodeCommentTranslator/static/js/2.05a3e4bc.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.f9b46eab.js",
     "static/js/2.05a3e4bc.chunk.js",
-    "static/css/main.cdaeda97.chunk.css",
-    "static/js/main.452775f5.chunk.js"
+    "static/css/main.e9c724cc.chunk.css",
+    "static/js/main.82dde54f.chunk.js"
   ]
 }
