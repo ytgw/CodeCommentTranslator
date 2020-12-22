@@ -62,8 +62,8 @@ export class AppMain extends React.Component<AppMainProps, AppMainState> {
       translationResult: 'Generate From PreProcessResult\n-----\n' + this.state.preProcessResult,
       shouldTranslated: false,
     });
-    const url = 'https://www.deepl.com/translator#en/ja/' + encodeURI(this.state.preProcessResult.replace(/\n{2,}/g, '\n\n'));
-    window.open(url, '_blank');
+    const url = 'https://www.deepl.com/translator#en/ja/' + encodeURI(this.state.preProcessResult);
+    window.open(url, '_blank', 'noopener');
   }
 
   render(): JSX.Element {

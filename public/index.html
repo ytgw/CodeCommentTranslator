@@ -5,23 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Source Code Comment Translator</title>
   </head>
+  <!-- ------------------------------ body ------------------------------ -->
   <body>
     <h1>Source Code Comment Translator</h1>
+    <!-- ------------------------------ Manual ------------------------------ -->
     <div class="Manual">
       <h2>使い方</h2>
       <ol>
         <li>プログラミング言語を選択する。
-          <br />
-          Customを選択した場合は、言語設定を入力をした後に「入力内容を設定」ボタンを押す。</li>
-        <li>ソースコード入力フォームに、翻訳したいソースコードを入力する。</li>
+          Customを選択した場合は、言語設定を入力をした後に「入力内容を設定」ボタンを押す。
+        </li>
+        <li>ソースコード入力フォームに、翻訳したいソースコードを入力する。
+          例えば
+          <a href="https://raw.githubusercontent.com/nodejs/node/master/lib/util.js" target="_blank" rel="noopener noreferrer">
+            このJavaScriptコード
+          </a>
+          を入力する。
+        </li>
         <li>「前処理」ボタンを押し、ソースコードからコメントを抽出し、前処理結果フォームに出力する。</li>
         <li>必要に応じて前処理結果フォームの内容を修正する。</li>
         <li>「翻訳サイトへ」ボタンを押し、外部サイトに前処理結果を送り、翻訳する。</li>
       </ol>
     </div>
+    <!-- ------------------------------ root ------------------------------ -->
     <div id="root"></div>
     <div class="footer">
-      要望は <a href= "https://github.com/ytgw/CodeCommentTranslator" >GitHub</a> から連絡お願いします。
+      要望は<a href="https://github.com/ytgw/CodeCommentTranslator" target="_blank" rel="noopener noreferrer">GitHub</a>から連絡お願いします。
     </div>
   </body>
 </html>
