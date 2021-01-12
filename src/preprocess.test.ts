@@ -72,3 +72,12 @@ test('JavaScript_Nodejsのutil', () => {
   const expectOutput = fs.readFileSync('./src/testSample/expect_Javascript_nodejs_util.txt', {encoding: 'utf8'});
   expect(preprocessSourceCode(sampleInput, lang).trimEnd()).toEqual(expectOutput.trimEnd());
 });
+
+
+// ======================================================================
+test('https://github.com/ytgw/CodeCommentTranslator/issues/1', () => {
+  lang = (new ProgramLangsContainer).name2lang('C or C++');
+  const sampleInput  = '//{ 29, ""}, /* Sami*/';
+  const expectOutput = '{ 29, ""}, /* Sami*/';
+  expect(preprocessSourceCode(sampleInput, lang).trimEnd()).toEqual(expectOutput.trimEnd());
+});
