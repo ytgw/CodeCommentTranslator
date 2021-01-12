@@ -8,7 +8,7 @@ class LineFormatter {
   private readonly hasSrc: boolean;
 
   constructor(typedTexts: TypedText[]) {
-    // 行頭と行末の特殊文字を削除したい。
+    // 行頭の特殊文字を削除したい。
     // そのために、1個以上の特殊文字の前後に、0個以上のスペースライク文字があるパターンを作成
     let specialChar = '(';
     for (const char of '#$%&=^~\\|@+*<>?/') {
@@ -18,13 +18,12 @@ class LineFormatter {
     const pattern = '(\\s*)' + specialChar + '(\\s*)';
 
     const startRegExp = new RegExp(`^${pattern}`);
-    const endRegExp = new RegExp(`${pattern}$`);
 
     // 空リストに対するmapは空リストを返し、空リストに対するjoinは空文字列を返す。
     typedTexts = typedTexts.filter(t => t.text.length > 0);
     const comment = typedTexts.filter(t => t.type === 'comment').map(t => t.text).join(' ');
-    // 行頭と行末の特殊文字を削除。
-    this.comment = comment.replace(startRegExp, '').replace(endRegExp, '');
+    // 行頭の特殊文字を削除。
+    this.comment = comment.replace(startRegExp, '');
 
     this.hasSrc = typedTexts.filter(
       t => (t.type === 'source') || (t.type === 'stringLiteral')
