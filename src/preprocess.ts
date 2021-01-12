@@ -110,6 +110,7 @@ class CommentFormatter {
       }
       texts.push({text: residualText, type: type});
     }
+    result.push(new LineFormatter(texts));
     return result;
   }
 
