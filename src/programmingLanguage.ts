@@ -63,7 +63,7 @@ export class ProgramLangsContainer {
     new ProgramLang('Python', ['#'], [{start: '"""', end: '"""'}, {start: '\'\'\'', end: '\'\'\''}], [{start: '\'', end: '\''}, {start: '"', end: '"'}]),
     new ProgramLang('Shell', ['#'], [], [{start: '\'', end: '\''}, {start: '"', end: '"'}, {start: '`', end: '`'}]),
     new ProgramLang('Custom', [], [], []),
-  ]
+  ];
 
   getLangs(): ProgramLang[] {
     return this.langs;

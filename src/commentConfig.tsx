@@ -31,7 +31,7 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
     return (
       <option value={name} key={name}>{name}</option>
     );
-  }
+  };
 
   renderSelectLang(): JSX.Element {
     return (

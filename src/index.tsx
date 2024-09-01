@@ -27,7 +27,7 @@ export class App extends React.Component<Empty, AppState> {
     this.setState({
       lang: this.langsContainer.name2lang(event.target.value as ProgramLangName)
     });
-  }
+  };
 
   render(): JSX.Element {
     return (

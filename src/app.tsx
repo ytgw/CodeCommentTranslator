@@ -35,7 +35,7 @@ export class AppMain extends React.Component<AppMainProps, AppMainState> {
       sourceInput: event.target.value,
       shouldPreProcessed: true,
     });
-  }
+  };
 
   onPreProcessButtonClick = (): void => {
     if (this.props.lang.getTextTypeChangers().length === 0) {
@@ -48,14 +48,14 @@ export class AppMain extends React.Component<AppMainProps, AppMainState> {
       shouldPreProcessed: false,
       shouldTranslated: true,
     });
-  }
+  };
 
   onPreProcessResultChange = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     this.setState({
       preProcessResult: event.target.value,
       shouldTranslated: true,
     });
-  }
+  };
 
   onTranslatorButtonClick = (): void => {
     this.setState({
@@ -64,7 +64,7 @@ export class AppMain extends React.Component<AppMainProps, AppMainState> {
     });
     const url = 'https://www.deepl.com/translator#en/ja/' + encodeURI(this.state.preProcessResult);
     window.open(url, '_blank', 'noopener');
-  }
+  };
 
   render(): JSX.Element {
     return (
