@@ -71,7 +71,7 @@
     "start": "vite",
     "build": "tsc --noEmit && vite build",
     "serve": "vite preview",
-    "test": "node scripts/test.js"
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": [
