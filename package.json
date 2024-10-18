@@ -3,46 +3,98 @@
   "version": "0.1.0",
   "homepage": "https://ytgw.github.io/CodeCommentTranslator",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.11.6",
-    "@testing-library/react": "^11.2.2",
-    "@testing-library/user-event": "^12.5.0",
-    "@types/jest": "^26.0.16",
-    "@types/node": "^12.19.8",
-    "@types/react": "^16.14.2",
-    "@types/react-dom": "^16.9.10",
-    "gh-pages": "^6.1.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-scripts": "^5.0.1",
-    "react-syntax-highlighter": "^15.4.3",
-    "typescript": "^4.1.2",
-    "web-vitals": "^0.2.4"
-  },
   "scripts": {
+    "build": "tsc --noEmit && vite build",
+    "deploy": "gh-pages -d dist",
+    "lint": "eslint src/",
     "predeploy": "npm test -- --watchAll=false && npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "preview": "vite preview",
+    "start": "vite",
+    "test": "jest"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.12.0",
+    "@testing-library/jest-dom": "^6.6.2",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/jest": "^29.5.13",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "babel-jest": "^29.7.0",
+    "babel-loader": "^9.2.1",
+    "babel-plugin-named-asset-import": "^0.3.8",
+    "babel-preset-react-app": "^10.0.1",
+    "eslint": "^9.12.0",
+    "gh-pages": "^6.1.1",
+    "globals": "^15.11.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-resolve": "^29.7.0",
+    "jest-watch-typeahead": "^2.2.2",
+    "react": "^18.3.1",
+    "react-app-polyfill": "^3.0.0",
+    "react-dev-utils": "^12.0.1",
+    "react-dom": "^18.3.1",
+    "react-refresh": "^0.14.2",
+    "react-syntax-highlighter": "^15.4.3",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.9"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+  "jest": {
+    "roots": [
+      "<rootDir>/src"
     ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts"
+    ],
+    "setupFiles": [
+      "react-app-polyfill/jsdom"
+    ],
+    "setupFilesAfterEnv": [],
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
+      "<rootDir>/src/**/*.{spec,test}.{js,jsx,ts,tsx}"
+    ],
+    "testEnvironment": "jsdom",
+    "transform": {
+      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/config/jest/babelTransform.js",
+      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
+      "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
+      "^.+\\.module\\.(css|sass|scss)$"
+    ],
+    "modulePaths": [],
+    "moduleNameMapper": {
+      "^react-native$": "react-native-web",
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+    },
+    "moduleFileExtensions": [
+      "web.js",
+      "js",
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "json",
+      "web.jsx",
+      "jsx",
+      "node"
+    ],
+    "watchPlugins": [
+      "jest-watch-typeahead/filename",
+      "jest-watch-typeahead/testname"
+    ],
+    "resetMocks": true
+  },
+  "babel": {
+    "presets": [
+      "react-app"
     ]
   }
 }
