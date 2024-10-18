@@ -10,6 +10,7 @@
 以下はよく使うコマンド。
 
 - ```npm run build``` プロダクション用にビルド
+- ```npm run deploy``` GitHub Pagesにデプロイ
 - ```npm run lint``` リント
 - ```npm run preview``` プロダクション用ビルドをローカルでプレビュー
 - ```npm start``` 開発用サーバーの起動
