@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "tsc --noEmit && vite build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "lint": "eslint src/",
     "predeploy": "npm test -- --watchAll=false && npm run build",
     "preview": "vite preview",
