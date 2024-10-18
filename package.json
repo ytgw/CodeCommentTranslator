@@ -37,12 +37,6 @@
     "serve": "vite preview",
     "test": "jest"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "devDependencies": {
     "vite": "^5.4.9"
   },
