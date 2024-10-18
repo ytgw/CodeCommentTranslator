@@ -9,8 +9,8 @@
 
 以下はよく使うコマンド。
 
-- ```npm start``` 開発用サーバーの起動
 - ```npm run build``` プロダクション用にビルド
-- ```npm run serve``` プロダクション用ビルドをローカルでプレビュー
+- ```npm run lint``` リント
+- ```npm run preview``` プロダクション用ビルドをローカルでプレビュー
+- ```npm start``` 開発用サーバーの起動
 - ```npm test``` テストの実行
-- ```npx eslint --fix src/``` srcディレクトリ以下に対してリント

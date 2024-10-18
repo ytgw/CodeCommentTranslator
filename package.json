@@ -4,11 +4,12 @@
   "homepage": "https://ytgw.github.io/CodeCommentTranslator",
   "private": true,
   "scripts": {
-    "predeploy": "npm test -- --watchAll=false && npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "vite",
     "build": "tsc --noEmit && vite build",
-    "serve": "vite preview",
+    "deploy": "gh-pages -d build",
+    "lint": "eslint src/",
+    "predeploy": "npm test -- --watchAll=false && npm run build",
+    "preview": "vite preview",
+    "start": "vite",
     "test": "jest"
   },
   "devDependencies": {
