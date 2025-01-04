@@ -9,9 +9,17 @@
 
 以下はよく使うコマンド。
 
-- ```npm run build``` プロダクション用にビルド
-- ```npm run deploy``` GitHub Pagesにデプロイ
-- ```npm run lint``` リント
-- ```npm run preview``` プロダクション用ビルドをローカルでプレビュー
-- ```npm start``` 開発用サーバーの起動
-- ```npm test``` テストの実行
+- パッケージ更新関連
+    - ```npm update``` pacakage-lock.jsonの更新
+    - ```npm outdated``` pacakage.jsonの更新を確認
+    - ```npm install foo@latest``` fooのインストールもしくは最新バージョンへの更新
+
+- 開発関連
+    - ```npm run lint``` リントの実行
+    - ```npm test``` テストの実行
+    - ```npm start``` 開発用サーバーの起動
+
+- デプロイ関連
+    - ```npm run build``` プロダクション用にビルド
+    - ```npm run preview``` プロダクション用ビルドをローカルでプレビュー
+    - ```npm run deploy``` GitHub Pagesにデプロイ
