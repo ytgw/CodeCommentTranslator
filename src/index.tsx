@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import {ProgramLang, ProgramLangsContainer, ProgramLangName} from './programmingLanguage';
 import {LangConfig} from './commentConfig';
 import {AppMain} from './app';
@@ -29,7 +29,7 @@ export class App extends React.Component<Empty, AppState> {
     });
   };
 
-  render(): JSX.Element {
+  render(): React.ReactElement {
     return (
       <>
         <LangConfig
@@ -46,7 +46,6 @@ export class App extends React.Component<Empty, AppState> {
 
 
 // ======================================================================
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-);
+const container = document.getElementById('root');
+const root = createRoot(container!);
+root.render(<App />);

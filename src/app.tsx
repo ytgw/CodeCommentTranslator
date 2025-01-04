@@ -66,7 +66,7 @@ export class AppMain extends React.Component<AppMainProps, AppMainState> {
     window.open(url, '_blank', 'noopener');
   };
 
-  render(): JSX.Element {
+  render(): React.ReactElement {
     return (
       <div className="AppMain">
         <div className="AppMainForm">

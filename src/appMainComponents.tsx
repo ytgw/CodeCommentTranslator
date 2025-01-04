@@ -8,7 +8,7 @@ type SourceInputProps = {
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
 }
 
-export function SourceInput(props: SourceInputProps): JSX.Element {
+export function SourceInput(props: SourceInputProps): React.ReactElement {
   return (
     <form>
       <textarea
@@ -28,7 +28,7 @@ type PreProcessButtonProps = {
   onClick: () => void
 }
 
-export function PreProcessButton(props: PreProcessButtonProps): JSX.Element {
+export function PreProcessButton(props: PreProcessButtonProps): React.ReactElement {
   const style: React.CSSProperties = {
     backgroundColor: props.isHighlight ? '#ffeeee' : undefined,
   };
@@ -47,7 +47,7 @@ type PreProcessResultProps = {
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
 }
 
-export function PreProcessResult(props: PreProcessResultProps): JSX.Element {
+export function PreProcessResult(props: PreProcessResultProps): React.ReactElement {
   return (
     <form>
       <textarea
@@ -67,7 +67,7 @@ type TranslatorButtonProps = {
   onClick: () => void
 }
 
-export function TranslatorButton(props: TranslatorButtonProps): JSX.Element {
+export function TranslatorButton(props: TranslatorButtonProps): React.ReactElement {
   const style: React.CSSProperties = {
     backgroundColor: props.isHighlight ? '#ffeeee' : undefined,
   };
@@ -85,7 +85,7 @@ type TranslationResultProps = {
   result: string
 }
 
-export function TranslationResult(props: TranslationResultProps): JSX.Element {
+export function TranslationResult(props: TranslationResultProps): React.ReactElement {
   return (
     <form>
       <textarea
