@@ -29,7 +29,7 @@ export class App extends React.Component<Empty, AppState> {
     });
   };
 
-  render(): JSX.Element {
+  render(): React.ReactElement {
     return (
       <>
         <LangConfig

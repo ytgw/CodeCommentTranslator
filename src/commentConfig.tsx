@@ -26,14 +26,14 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
     };
   }
 
-  lang2optionElement = (lang: ProgramLang): JSX.Element => {
+  lang2optionElement = (lang: ProgramLang): React.ReactElement => {
     const name = lang.getName();
     return (
       <option value={name} key={name}>{name}</option>
     );
   };
 
-  renderSelectLang(): JSX.Element {
+  renderSelectLang(): React.ReactElement {
     return (
       <select value={this.props.lang.getName()} onChange={this.props.onLangChange}>
         {this.props.langsContainer.getLangs().map(this.lang2optionElement)}
@@ -41,7 +41,7 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
     );
   }
 
-  renderNormalLang(): JSX.Element {
+  renderNormalLang(): React.ReactElement {
     const lineComments = this.props.lang.getLineComments();
     const blockComments = this.props.lang.getBlockComments();
     const stringLeterals = this.props.lang.getStringLeterals();
@@ -66,9 +66,9 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
     this.setState({lineComments: lineComments});
   }
 
-  renderCustomLineComment(): JSX.Element {
+  renderCustomLineComment(): React.ReactElement {
     const lineComments = this.state.lineComments;
-    const inputElements: (string | JSX.Element)[] = ['ラインコメント：「'];
+    const inputElements: (string | React.ReactElement)[] = ['ラインコメント：「'];
     for (let i = 0; i <= lineComments.length; i++) {
       const value = (i === lineComments.length) ? '' : lineComments[i];
       inputElements.push(
@@ -107,8 +107,8 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
     label: string,
     setString: SetString[],
     onChange: (str: string, idx: number, isStart: boolean) => void
-  ): JSX.Element {
-    const inputElements: (string | JSX.Element)[] = [label + '：「'];
+  ): React.ReactElement {
+    const inputElements: (string | React.ReactElement)[] = [label + '：「'];
     for (let i = 0; i <= setString.length; i++) {
       const value = (i === setString.length) ? {start: '', end: ''} : setString[i];
       inputElements.push(
@@ -143,7 +143,7 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
     this.setState({blockComments: blockComments});
   }
 
-  renderCustomBlockComment(): JSX.Element {
+  renderCustomBlockComment(): React.ReactElement {
     const blockComments = this.state.blockComments;
     const onChange = (str: string, idx: number, isStart: boolean): void => this.onBlockCommentsChange(str, idx, isStart);
     return this.renderSetString('ブロックコメント', blockComments, onChange);
@@ -155,7 +155,7 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
     this.setState({stringLeterals: stringLiterals});
   }
 
-  renderCustomStringLiteral(): JSX.Element {
+  renderCustomStringLiteral(): React.ReactElement {
     const stringLiterals = this.state.stringLeterals;
     const onChange = (str: string, idx: number, isStart: boolean): void => this.onStringLiteralsChange(str, idx, isStart);
     return this.renderSetString('文字列リテラル', stringLiterals, onChange);
@@ -187,7 +187,7 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
     alert(messages.join('\n'));
   }
 
-  renderCustomLang(): JSX.Element {
+  renderCustomLang(): React.ReactElement {
     return (
       <form onSubmit={(e): void => this.onSubmit(e)}>
         {this.renderCustomLineComment()}
@@ -201,7 +201,7 @@ export class LangConfig extends React.Component<LangConfigProps, LangConfigState
     );
   }
 
-  render(): JSX.Element {
+  render(): React.ReactElement {
     const commentElement = this.props.isCustomLang ? this.renderCustomLang() : this.renderNormalLang();
     return (
       <div className="CommentConfig">
