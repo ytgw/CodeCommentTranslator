@@ -8,8 +8,8 @@
     "deploy": "gh-pages -d dist",
     "lint": "eslint src/",
     "predeploy": "npm test -- --watchAll=false && npm run build",
-    "preview": "vite preview",
-    "start": "vite",
+    "preview": "vite preview --host",
+    "start": "vite --host",
     "test": "jest"
   },
   "devDependencies": {

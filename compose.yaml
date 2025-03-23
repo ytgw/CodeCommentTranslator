@@ -5,6 +5,9 @@ volumes:
 services:
   app:
     build: .
+    ports:
+      - 127.0.0.1:5173:5173
+      - 127.0.0.1:4173:4173
     volumes:
       # Dockerでnode_modulesをホストとコンテナで同期しないようにする
       # https://zenn.dev/tamanugi/articles/6f372d45b85c18
