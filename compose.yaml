@@ -1,0 +1,12 @@
+
+volumes:
+  node_modules:
+
+services:
+  app:
+    build: .
+    volumes:
+      # Dockerでnode_modulesをホストとコンテナで同期しないようにする
+      # https://zenn.dev/tamanugi/articles/6f372d45b85c18
+      - node_modules:/app/node_modules
+      - ./:/app/:rw
