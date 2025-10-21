@@ -4,14 +4,13 @@ on:
   push:
     branches: [ "master" ]
 
-permissions:
-  pages: write
-
 jobs:
   test:
     uses: ./.github/workflows/test.yml
-  build:
+  deploy:
     needs: test
+    permissions:
+      contents: write  # gh-pagesによるデプロイに必要な権限
     runs-on: ubuntu-latest
     steps:
       -
