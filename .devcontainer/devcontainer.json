@@ -1,5 +1,15 @@
 {
-    "dockerComposeFile": ["../compose.yaml", "compose.yaml"],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "donjayamanne.githistory"
+            ]
+        }
+    },
+    "dockerComposeFile": [
+        "../compose.yaml",
+        "compose.yaml"
+    ],
     "service": "app",
     "workspaceFolder": "/app"
 }
