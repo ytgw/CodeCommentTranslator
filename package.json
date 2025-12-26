@@ -37,7 +37,7 @@
     "jest-watch-typeahead": "^3.0.1",
     "react": "^19.2.3",
     "react-app-polyfill": "^3.0.0",
-    "react-dom": "^19.2.1",
+    "react-dom": "^19.2.3",
     "react-refresh": "^0.18.0",
     "typescript": "^5.8.3",
     "vite": "^7.2.7"
