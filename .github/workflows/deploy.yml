@@ -11,7 +11,7 @@ jobs:
     needs: test
     permissions:
       contents: write  # gh-pagesによるデプロイに必要な権限
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     steps:
       -
         name: Checkout
