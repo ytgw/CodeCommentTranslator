@@ -39,7 +39,7 @@
     "react-app-polyfill": "^3.0.0",
     "react-dom": "^19.2.4",
     "react-refresh": "^0.18.0",
-    "typescript": "^5.8.3",
+    "typescript": "^6.0.2",
     "vite": "^8.0.5"
   },
   "jest": {
