@@ -21,7 +21,8 @@
     "types": [
       "node",
       "jest"
-    ]
+    ],
+    "noUncheckedSideEffectImports": false
   },
   "include": [
     "src"
