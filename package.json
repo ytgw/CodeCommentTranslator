@@ -40,7 +40,7 @@
     "react-dom": "^19.2.5",
     "react-refresh": "^0.18.0",
     "typescript": "^6.0.2",
-    "vite": "^8.0.7"
+    "vite": "^8.0.8"
   },
   "jest": {
     "roots": [
