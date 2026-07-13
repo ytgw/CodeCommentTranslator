@@ -28,7 +28,7 @@
     "babel-jest": "^30.4.0",
     "babel-loader": "^10.1.1",
     "babel-plugin-named-asset-import": "^0.3.8",
-    "eslint": "^10.5.0",
+    "eslint": "^10.6.0",
     "gh-pages": "^6.3.0",
     "globals": "^17.7.0",
     "jest": "^30.4.2",
