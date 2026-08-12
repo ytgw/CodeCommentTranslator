@@ -14,17 +14,19 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "types": [
       "node",
-      "jest"
+      "vitest/globals"
     ],
     "noUncheckedSideEffectImports": false
   },
   "include": [
-    "src"
+    "src",
+    "vite.config.mjs"
   ]
 }
