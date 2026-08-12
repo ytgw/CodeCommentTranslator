@@ -62,7 +62,7 @@ export class AppMain extends React.Component<AppMainProps, AppMainState> {
       translationResult: 'Generate From PreProcessResult\n-----\n' + this.state.preProcessResult,
       shouldTranslated: false,
     });
-    const url = 'https://www.deepl.com/translator#en/ja/' + encodeURI(this.state.preProcessResult);
+    const url = 'https://translate.google.co.jp/?hl=ja&sl=auto&tl=ja&text=' + encodeURI(this.state.preProcessResult) + '&op=translate';
     window.open(url, '_blank', 'noopener');
   };
 
